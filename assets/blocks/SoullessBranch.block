@@ -1,0 +1,6 @@
+{
+    "displayName": "Soulless Branch",
+    "replacementAllowed": true,
+    "basedOn": "core:plant",
+    "translucent": true
+}

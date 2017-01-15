@@ -1,0 +1,12 @@
+{
+    "displayName": "Fire Leaf",
+    "luminance": 15,
+    "tile" : "Inferno:FireLeaf",
+    "translucent": true,
+    "categories": ["wood", "leaf"],
+    "attachmentAllowed": false,
+    "hardness": 1,
+    "debrisOnDestroy": false,
+    "waving": true,
+    "mass": 8
+}

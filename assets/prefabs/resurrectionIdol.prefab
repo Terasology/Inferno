@@ -1,0 +1,10 @@
+{
+    "parent": "engine:iconItem",
+    "Item" : {
+        "icon" : "Inferno:resurrectionIdol"
+    },
+    "DisplayName" : {
+        "name" : "Resurrection Idol"
+    },
+    "InfernoResurrect" : {}
+}

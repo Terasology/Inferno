@@ -1,0 +1,7 @@
+{
+    "displayName": "Devil's Shroom",
+    "replacementAllowed": true,
+    "basedOn": "core:plant",
+    "luminance": 15,
+    "translucent": true
+}

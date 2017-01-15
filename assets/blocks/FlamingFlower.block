@@ -1,0 +1,9 @@
+{
+    "basedOn": "core:plant",
+    "displayName": "Flaming Flower",
+    "waving": true,
+    "luminance": 15,
+    "attachmentAllowed": false,
+    "translucent": true,
+    "replacementAllowed": true
+}
