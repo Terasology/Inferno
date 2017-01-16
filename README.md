@@ -11,9 +11,9 @@ This module adds an custom world generator which contains an alternate dimension
 
 ---
 
-Upon spawning in the Overworld, you'll receive a **Resurrection Idol** in your inventory. But how do you enter Inferno? 
+Upon spawning in the Overworld, you'll receive a **Resurrection Idol** in your inventory. But how do you enter the Inferno? 
 
-Well... first... you have to die. While you would normally enter the ethereal dimension after dying, the **Resurrection Idol**, forged by the ancient tribes of Terasology, allows you to remain in your corporeal form even as you enter Inferno, giving you one chance to explore the dimension!
+Well... first... you have to die. While you would normally enter the ethereal dimension after dying, the **Resurrection Idol**, forged by the ancient tribes of Terasology, allows you to remain in your corporeal form even as you enter the Inferno, giving you one chance to explore the dimension!
 
 (Ideally, you would also want to die by natural means such as fall damage with the console closed so that you'll see the message when you enter. Also, remember to turn up the volume so you can hear the portal entering sound effects and Inferno ambience sounds!)
 
@@ -36,14 +36,14 @@ Flora:
 
 Features:
 
-- **Lava Huts**: *Reminscent of a bygone age, these dilapidated huts used to be belong to souls who were trapped in Inferno*
+- **Lava Huts**: *Reminscent of a bygone age, these dilapidated huts used to be belong to souls who were trapped in the Inferno*
 
 (Spawns at various heights and sizes, with blocks randomly placed to mimic dilapidation)
 
 ![](http://i.imgur.com/7LctuL5.png)
 ![](http://i.imgur.com/gT79tRa.png)
 
-- **Infernal Trees**: *These trees shine brightly, guiding the dead in their journey through Inferno* 
+- **Infernal Trees**: *These trees shine brightly, guiding the dead in their journey through the Inferno* 
 
 The **Fire Leaves** found on these trees make excellent light sources.
 
