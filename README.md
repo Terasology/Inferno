@@ -1,3 +1,5 @@
+Potential issue: https://github.com/iojw/Inferno/issues/1
+
 # Inferno
 
 **in·fer·no**  
@@ -48,6 +50,7 @@ The **Fire Leaves** found on these trees make excellent light sources.
 (These trees have varying heights, as determined by white noise)
 
 ![](http://i.imgur.com/MoLKV47.png)
+![](http://i.imgur.com/07Coz0E.png)
 
 - **Lava Falls**: *The source of all this lava is unknown*
 
