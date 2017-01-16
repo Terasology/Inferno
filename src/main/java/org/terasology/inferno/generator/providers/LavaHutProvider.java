@@ -15,19 +15,17 @@
  */
 package org.terasology.inferno.generator.providers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.common.collect.Lists;
 import org.terasology.inferno.generator.facets.InfernoCeilingHeightFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.inferno.generator.facets.LavaHutFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
 import org.terasology.inferno.generator.structures.LavaHut;
+import org.terasology.math.Direction;
 import org.terasology.math.TeraMath;
 import org.terasology.math.geom.BaseVector2i;
 import org.terasology.utilities.procedural.Noise;
 import org.terasology.utilities.procedural.WhiteNoise;
-import org.terasology.utilities.random.FastRandom;
-import org.terasology.utilities.random.Random;
 import org.terasology.world.generation.Border3D;
 import org.terasology.world.generation.Facet;
 import org.terasology.world.generation.FacetBorder;
@@ -36,6 +34,8 @@ import org.terasology.world.generation.GeneratingRegion;
 import org.terasology.world.generation.Produces;
 import org.terasology.world.generation.Requires;
 
+import java.util.List;
+
 @Produces(LavaHutFacet.class)
 @Requires( {
         @Facet(value = InfernoSurfaceHeightFacet.class, border = @FacetBorder(top = 15, bottom = 25, sides = 15)),
@@ -43,26 +43,23 @@ import org.terasology.world.generation.Requires;
         @Facet(LavaLevelFacet.class)
 })
 public class LavaHutProvider implements FacetProvider {
-    private static final int MIN_SPAWN_HEIGHT = 30;
-    private static final int MIN_LAVA_PADDING = 10;
-    private static final int MIN_HUT_HEIGHT = 6;
-    private static final int MAX_HUT_HEIGHT = 12;
-    private static final int MIN_HUT_LENGTH = 5;
-    private static final int MAX_HUT_LENGTH = 7;
-    // odd-only
-    private static final int HUT_LENGTH = 5;
+    private static final List<Direction> HORIZONTAL_DIRECTIONS = Lists.newArrayList(Direction.FORWARD, Direction.BACKWARD, Direction.LEFT, Direction.RIGHT);
+    private static final int MIN_SPAWN_HEIGHT = 25;
+    private static final int MIN_LAVA_PADDING = 15;
+    private static final int MIN_HUT_HEIGHT = 5;
+    private static final int MAX_HUT_HEIGHT = 8;
+
     private Noise heightNoise;
     private Noise spawnNoise;
     private Noise hutLengthNoise;
-    private Random random;
-    private Logger logger = LoggerFactory.getLogger(LavaHutProvider.class);
+    private Noise dirNoise;
 
     @Override
     public void setSeed(long seed) {
-        spawnNoise = new WhiteNoise(seed + 50);
-        heightNoise = new WhiteNoise(seed - 50);
-        hutLengthNoise = new WhiteNoise(seed + 500);
-        random = new FastRandom(seed + 50);
+        spawnNoise = new WhiteNoise(seed + 51);
+        heightNoise = new WhiteNoise(seed + 52);
+        hutLengthNoise = new WhiteNoise(seed + 53);
+        dirNoise = new WhiteNoise(seed + 54);
     }
 
     @Override
@@ -82,16 +79,23 @@ public class LavaHutProvider implements FacetProvider {
                     && isOverLava(surfaceHeightFacet, position.x(), position.y() + MIN_LAVA_PADDING, lavaLevel)
                     && isOverLava(surfaceHeightFacet, position.x(), position.y() - MIN_LAVA_PADDING, lavaLevel)
                     && ceilingHeight - lavaLevel >= MIN_SPAWN_HEIGHT
-                    && spawnNoise.noise(position.x(), position.y()) > 0.999
+                    && spawnNoise.noise(position.x(), position.y()) > 0.998
                     && lavaHutFacet.getWorldRegion().encompasses(position.x(), (int) hutHeight, position.y())) {
                 // todo: not hardcoded
                 int hutLength;
-                if (hutLengthNoise.noise(position.x(), position.y()) < 0.6) {
+                float lengthNoiseVal = Math.abs(hutLengthNoise.noise(position.x(), position.y()));
+                LavaHut lavaHut = new LavaHut();
+                if (lengthNoiseVal <= 0.3) {
                     hutLength = 5;
-                } else {
+                } else if (lengthNoiseVal <= 0.8) {
                     hutLength = 7;
+                } else {
+                    hutLength = 9;
                 }
-                lavaHutFacet.setWorld(position.x(), (int) (hutHeight), position.y(), new LavaHut(hutLength));
+                lavaHut.setLength(hutLength);
+                int dirIndex = Math.abs(Math.round(dirNoise.noise(position.x(), position.y()) * (HORIZONTAL_DIRECTIONS.size() - 1)));
+                lavaHut.setHutDirection(HORIZONTAL_DIRECTIONS.get(dirIndex));
+                lavaHutFacet.setWorld(position.x(), (int) (hutHeight), position.y(), lavaHut);
             }
         }
         region.setRegionFacet(LavaHutFacet.class, lavaHutFacet);

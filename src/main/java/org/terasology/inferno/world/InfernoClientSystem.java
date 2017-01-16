@@ -15,6 +15,8 @@
  */
 package org.terasology.inferno.world;
 
+import org.terasology.audio.AudioManager;
+import org.terasology.audio.events.PlaySoundEvent;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.EventPriority;
 import org.terasology.entitySystem.event.ReceiveEvent;
@@ -39,6 +41,7 @@ import org.terasology.math.geom.Vector3f;
 import org.terasology.math.geom.Vector3i;
 import org.terasology.protobuf.EntityData;
 import org.terasology.registry.In;
+import org.terasology.utilities.Assets;
 import org.terasology.world.WorldProvider;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.World;
@@ -61,6 +64,8 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
     private WorldGenerator worldGenerator;
     @In
     private InventoryManager inventoryManager;
+    @In
+    private AudioManager audioManager;
 
     private Map<EntityRef, Vector3f> teleportQueue = new HashMap<>();
 
@@ -97,10 +102,18 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
             if (spawnPos != null) {
                 inventoryManager.removeItem(entity, entity, item, true);
                 character.send(new DoHealEvent(100000));
-                client.send(new EnterInfernoEvent());
+                character.send(new PlaySoundEvent(Assets.getSound("Inferno:EnterPortal").get(), 0.4f));
+                character.send(new EnterInfernoEvent(client));
                 teleportQueue.put(character, spawnPos);
             }
         }
+    }
+
+    @ReceiveEvent
+    public void onEnterInfeno(EnterInfernoEvent event, EntityRef entity) {
+        // temp-fix, not ideal
+        entity.send(new PlaySoundEvent(Assets.getSound("Inferno:InfernoAmbience").get(), 0.7f));
+        //audioManager.playMusic(Assets.getMusic("Inferno:InfernoAmbience").get(), 1f);
     }
 
     private Vector3f findInfernoSpawn(Vector3f currentPos) {

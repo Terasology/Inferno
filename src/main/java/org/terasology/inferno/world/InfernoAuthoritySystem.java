@@ -39,7 +39,7 @@ public class InfernoAuthoritySystem extends BaseComponentSystem {
 
     @ReceiveEvent
     public void onEnterInferno(EnterInfernoEvent enterEvent, EntityRef clientEntity) {
-        clientEntity.send(new ChatMessageEvent("The Resurrection Idol protects you, binding you to your corporeal form as you enter Inferno!", EntityRef.NULL));
+        enterEvent.getClientEntity().send(new ChatMessageEvent("The Resurrection Idol protects you, binding you to your corporeal form as you enter Inferno!", EntityRef.NULL));
     }
 
     @ReceiveEvent

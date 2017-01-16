@@ -15,13 +15,12 @@
  */
 package org.terasology.inferno.generator.structures;
 
+import org.terasology.math.Direction;
+
 public class LavaHut {
     public int length;
     public int height = 4;
-
-    public LavaHut(int length) {
-        this.length = length;
-    }
+    public Direction hutDirection;
 
     public int getLength() {
         return length;
@@ -33,6 +32,14 @@ public class LavaHut {
 
     public int getHeight() {
         return height;
+    }
+
+    public Direction getHutDirection() {
+        return hutDirection;
+    }
+
+    public void setHutDirection(Direction dir) {
+        this.hutDirection = dir;
     }
 
 }

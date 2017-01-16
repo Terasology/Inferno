@@ -15,7 +15,6 @@
  */
 package org.terasology.inferno.generator.rasterizers;
 
-import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.inferno.generator.facets.LavaHutFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
 import org.terasology.inferno.generator.structures.LavaHut;
@@ -36,21 +35,27 @@ import java.util.Map;
 
 public class LavaHutRasterizer implements WorldRasterizer {
     // probabilities of blocks being placed/spawned - random placing mimics dilapidation
-    private static final float WALL_BLOCK_PROB = 0.9f;
-    private static final float WALL_TOP_BLOCK_PROB = 0.4f;
-    private static final float CRACKED_BLOCK_PROB = 0.5f;
-    private static final float PLATFORM_BLOCK_PROB = 0.95f;
+    private static final float WALL_BLOCK_PROB = 0.85f;
+    private static final float WALL_TOP_BLOCK_PROB = 0.65f;
+    private static final float UPPER_CRACKED_BLOCK_PROB = 0.35f;
+    private static final float LOWER_CRACKED_BLOCK_PROB = 0.1f;
+    private static final float PLATFORM_BLOCK_PROB = 0.9f;
+    private static final float LAVA_SPAWN_PROB = 0.15f;
+
     private Block topBlock;
     private Block topBlockCracked;
     private Block lowerBlock;
-    private Block air;
+    private Block lowerBlockCracked;
+    private Block lava;
     private Random random = new FastRandom();
 
     @Override
     public void initialize() {
         topBlock = CoreRegistry.get(BlockManager.class).getBlock("ChiselBlocks:Basalt_bricks-soft");
         topBlockCracked = CoreRegistry.get(BlockManager.class).getBlock("ChiselBlocks:Basalt_bricks-cracked");
-        lowerBlock = CoreRegistry.get(BlockManager.class).getBlock("ChiselBlocks:Basalt_pillar-side");
+        lowerBlock = CoreRegistry.get(BlockManager.class).getBlock("ChiselBlocks:Basalt_tiles-large");
+        lowerBlockCracked = CoreRegistry.get(BlockManager.class).getBlock("ChiselBlocks:Basalt_cracked");
+        lava = CoreRegistry.get(BlockManager.class).getBlock("Core:Lava");
     }
 
     @Override
@@ -62,6 +67,7 @@ public class LavaHutRasterizer implements WorldRasterizer {
             Vector3i position = new Vector3i(entry.getKey());
             LavaHut lavaHut = entry.getValue();
             if (lavaHut != null && chunk.getRegion().encompasses(position)) {
+                Vector3i dirVector = lavaHut.getHutDirection().getVector3i();
                 int length = lavaHut.getLength();
                 int height = lavaHut.getHeight();
                 // since length is odd, fromCenter gets rounded down
@@ -70,12 +76,13 @@ public class LavaHutRasterizer implements WorldRasterizer {
 
                 // platform
                 Region3i platformRegion = Region3i.createFromCenterExtents(position, new Vector3i(toOuterCenter, 0, toOuterCenter));
-                Region3i backPlatformRegion = Region3i.createFromCenterExtents(new Vector3i(position).addX(toOuterCenter), new Vector3i(0, 0, toOuterCenter));
+                Region3i backPlatformRegion = Region3i.createFromCenterExtents(new Vector3i(position).add(new Vector3i(dirVector).mul(toOuterCenter)), new Vector3i(0, 0, toOuterCenter));
                 if (!isEncompassed(platformRegion, chunkRegion.getRegion())) {
                     continue;
                 }
                 for (Vector3i blockPos : platformRegion) {
-                    if (chunkRegion.getRegion().encompasses(blockPos) && !backPlatformRegion.encompasses(blockPos) && random.nextFloat() < PLATFORM_BLOCK_PROB) {
+                    float platformBlockProb = random.nextFloat();
+                    if (chunkRegion.getRegion().encompasses(blockPos) && !backPlatformRegion.encompasses(blockPos) && platformBlockProb <= PLATFORM_BLOCK_PROB) {
                         chunk.setBlock(ChunkMath.calcBlockPos(blockPos), topBlock);
                     }
                 }
@@ -86,12 +93,19 @@ public class LavaHutRasterizer implements WorldRasterizer {
                 Vector3i innerMin = new Vector3i(outerMin).add(1, 0, 1);
                 Region3i innerWallRegion = Region3i.createFromMinAndSize(innerMin, new Vector3i(length - 2, height + 2, length - 2));
                 for (Vector3i blockPos : outerWallRegion) {
-                    if (chunkRegion.getRegion().encompasses(blockPos) && !innerWallRegion.encompasses(blockPos) && random.nextFloat() < WALL_BLOCK_PROB) {
-                        if (random.nextFloat() < CRACKED_BLOCK_PROB) {
-                            chunk.setBlock(ChunkMath.calcBlockPos(blockPos), topBlockCracked);
-                        }
-                        else {
-                            chunk.setBlock(ChunkMath.calcBlockPos(blockPos), topBlock);
+                    if (chunkRegion.getRegion().encompasses(blockPos) && !innerWallRegion.encompasses(blockPos) && random.nextFloat() <= WALL_BLOCK_PROB) {
+                        placeWithProbability(chunk, blockPos, topBlockCracked, topBlock, UPPER_CRACKED_BLOCK_PROB);
+                    }
+                }
+                // lava columns
+                Region3i topOuterWallRegion = Region3i.createFromMinAndSize(new Vector3i(innerMin).add(0, height - 1, 0), new Vector3i(length - 2, 1, length - 2));
+                Region3i topInnerWallRegion = Region3i.createFromMinAndSize(new Vector3i(innerMin).add(1, height - 1, 1), new Vector3i(length - 3, 1, length - 3));
+                for (Vector3i blockPos : topOuterWallRegion) {
+                    if (chunkRegion.getRegion().encompasses(blockPos) && !topInnerWallRegion.encompasses(blockPos) && random.nextFloat() <= LAVA_SPAWN_PROB) {
+                        Vector3i lavaPos = new Vector3i(blockPos);
+                        while (chunk.getRegion().encompasses(lavaPos) && lavaPos.y() >= lavaLevelFacet.getLavaLevel()) {
+                            chunk.setBlock(ChunkMath.calcBlockPos(lavaPos), lava);
+                            lavaPos.subY(1);
                         }
                     }
                 }
@@ -99,25 +113,26 @@ public class LavaHutRasterizer implements WorldRasterizer {
                 // top layer
                 Region3i topLayerWallRegion = Region3i.createFromCenterExtents(new Vector3i(position).addY(height), new Vector3i(toInnerCenter, 0, toInnerCenter));
                 for (Vector3i blockPos : topLayerWallRegion) {
-                    if (chunkRegion.getRegion().encompasses(blockPos) && !innerWallRegion.encompasses(blockPos) && random.nextFloat() < WALL_TOP_BLOCK_PROB) {
-                        chunk.setBlock(ChunkMath.calcBlockPos(blockPos), topBlock);
+                    if (chunkRegion.getRegion().encompasses(blockPos) && !innerWallRegion.encompasses(blockPos) && random.nextFloat() <= WALL_TOP_BLOCK_PROB) {
+                        placeWithProbability(chunk, blockPos, topBlockCracked, topBlock, UPPER_CRACKED_BLOCK_PROB);
                     }
                 }
 
                 // stilts
                 Vector3i stiltsCenter = new Vector3i(position).addY(height - 1);
                 Block stiltBlock;
-                while (chunkRegion.getRegion().encompasses(stiltsCenter) && stiltsCenter.y() > lavaLevelFacet.getLavaLevel()) {
+                while (chunkRegion.getRegion().encompasses(stiltsCenter) && stiltsCenter.y() >= lavaLevelFacet.getLavaLevel()) {
                     if (stiltsCenter.y() >= position.y()) {
-                        stiltBlock = topBlock;
+                        chunk.setBlock(ChunkMath.calcBlockPos(new Vector3i(stiltsCenter).add(toInnerCenter, 0, toInnerCenter)), topBlock);
+                        chunk.setBlock(ChunkMath.calcBlockPos(new Vector3i(stiltsCenter).add(-toInnerCenter, 0, toInnerCenter)), topBlock);
+                        chunk.setBlock(ChunkMath.calcBlockPos(new Vector3i(stiltsCenter).add(toInnerCenter, 0, -toInnerCenter)), topBlock);
+                        chunk.setBlock(ChunkMath.calcBlockPos(new Vector3i(stiltsCenter).add(-toInnerCenter, 0, -toInnerCenter)), topBlock);
+                    } else {
+                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(toInnerCenter, 0, toInnerCenter), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
+                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(-toInnerCenter, 0, toInnerCenter), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
+                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(toInnerCenter, 0, -toInnerCenter), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
+                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(-toInnerCenter, 0, -toInnerCenter), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
                     }
-                    else {
-                        stiltBlock = lowerBlock;
-                    }
-                    chunk.setBlock(ChunkMath.calcBlockPos(new Vector3i(stiltsCenter).add(toInnerCenter, 0, toInnerCenter)), stiltBlock);
-                    chunk.setBlock(ChunkMath.calcBlockPos(new Vector3i(stiltsCenter).add(-toInnerCenter, 0, toInnerCenter)), stiltBlock);
-                    chunk.setBlock(ChunkMath.calcBlockPos(new Vector3i(stiltsCenter).add(toInnerCenter, 0, -toInnerCenter)), stiltBlock);
-                    chunk.setBlock(ChunkMath.calcBlockPos(new Vector3i(stiltsCenter).add(-toInnerCenter, 0, -toInnerCenter)), stiltBlock);
                     stiltsCenter.subY(1);
                 }
             }
@@ -131,5 +146,13 @@ public class LavaHutRasterizer implements WorldRasterizer {
             }
         }
         return true;
+    }
+
+    private void placeWithProbability(CoreChunk chunk, Vector3i pos, Block block1, Block block2, float prob) {
+        if (random.nextFloat() <= prob) {
+            chunk.setBlock(ChunkMath.calcBlockPos(pos), block1);
+        } else {
+            chunk.setBlock(ChunkMath.calcBlockPos(pos), block2);
+        }
     }
 }

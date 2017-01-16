@@ -52,7 +52,7 @@ import java.util.List;
 public class InfernalTreeProvider implements FacetProvider {
     private static final int MIN_TRUNK_HEIGHT = 4;
     private static final int MAX_TRUNK_HEIGHT = 6;
-    private static final int MIN_SPAWN_SPACE = 20;
+    private static final int MIN_SPAWN_SPACE = 15;
 
     private Noise spawnNoise;
     private Noise heightNoise;
@@ -78,7 +78,7 @@ public class InfernalTreeProvider implements FacetProvider {
             float surfaceHeight = surfaceHeightFacet.getWorld(position);
             if (treeFacet.getWorldRegion().encompasses(position.x(), ceilingHeight, position.y())
                     && ceilingHeight - surfaceHeight > MIN_SPAWN_SPACE
-                    && spawnNoise.noise(position.x(), position.y()) > 0.996) {
+                    && spawnNoise.noise(position.x(), position.y()) > 0.997) {
                 int trunkHeight = (int) TeraMath.clamp(heightNoise.noise(position.x(), position.y()) * MAX_TRUNK_HEIGHT, MIN_TRUNK_HEIGHT, MAX_TRUNK_HEIGHT);
                 Vector3i treePos = new Vector3i(position.x(), ceilingHeight, position.y());
                 InfernalTree tree = new InfernalTree(trunkHeight, generateCanopy(trunkHeight));

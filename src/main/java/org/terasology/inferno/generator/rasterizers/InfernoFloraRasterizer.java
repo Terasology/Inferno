@@ -39,7 +39,7 @@ public class InfernoFloraRasterizer implements WorldRasterizer {
     public void initialize() {
         flora.put(CoreRegistry.get(BlockManager.class).getBlock("Inferno:FlamingFlower"), 0.45);
         flora.put(CoreRegistry.get(BlockManager.class).getBlock("Inferno:DevilShroom"), 0.45);
-        flora.put(CoreRegistry.get(BlockManager.class).getBlock("Inferno:SoullessBranch"), 0.1);
+        flora.put(CoreRegistry.get(BlockManager.class).getBlock("Inferno:DeadBranch"), 0.1);
     }
 
     @Override

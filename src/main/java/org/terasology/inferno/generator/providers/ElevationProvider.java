@@ -31,7 +31,7 @@ import org.terasology.world.generation.Updates;
 
 @Updates(@Facet(InfernoSurfaceHeightFacet.class))
 public class ElevationProvider implements FacetProvider {
-    private static final float MAX_ELEVATION = 80;
+    private static final float MAX_ELEVATION = 30;
     private Noise redNoise;
 
     @Override
