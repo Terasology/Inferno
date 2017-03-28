@@ -7,7 +7,7 @@ inˈfərnō
 *noun*  
 1\. hell
 
-This module adds an custom world generator which contains an alternate dimension on top of the features found in the default Perlin generator. 
+This module adds an custom world generator which contains a alternate dimension on top of the features found in the default Perlin generator. 
 
 ---
 
