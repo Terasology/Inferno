@@ -51,8 +51,8 @@ public class LavaHutRasterizer implements WorldRasterizer {
 
     @Override
     public void initialize() {
-        topBlock = CoreRegistry.get(BlockManager.class).getBlock("ChiselBlocks:Basalt_bricks-soft");
-        topBlockCracked = CoreRegistry.get(BlockManager.class).getBlock("ChiselBlocks:Basalt_bricks-cracked");
+        topBlock = CoreRegistry.get(BlockManager.class).getBlock("ChiselBlocks:Basalt_bricks-small");
+        topBlockCracked = CoreRegistry.get(BlockManager.class).getBlock("ChiselBlocks:Basalt_bricks-triple");
         lowerBlock = CoreRegistry.get(BlockManager.class).getBlock("ChiselBlocks:Basalt_tiles-large");
         lowerBlockCracked = CoreRegistry.get(BlockManager.class).getBlock("ChiselBlocks:Basalt_cracked");
         lava = CoreRegistry.get(BlockManager.class).getBlock("Core:Lava");
