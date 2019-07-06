@@ -30,7 +30,7 @@ import org.terasology.inferno.generator.facets.LavaLevelFacet;
 import org.terasology.logic.characters.CharacterComponent;
 import org.terasology.logic.characters.CharacterTeleportEvent;
 import org.terasology.logic.health.BeforeDestroyEvent;
-import org.terasology.logic.health.DoHealEvent;
+import org.terasology.logic.health.event.RestoreFullHealthEvent;
 import org.terasology.logic.inventory.InventoryManager;
 import org.terasology.logic.inventory.InventoryUtils;
 import org.terasology.logic.location.LocationComponent;
@@ -39,7 +39,6 @@ import org.terasology.math.Region3i;
 import org.terasology.math.geom.BaseVector2i;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.math.geom.Vector3i;
-import org.terasology.protobuf.EntityData;
 import org.terasology.registry.In;
 import org.terasology.utilities.Assets;
 import org.terasology.world.WorldProvider;
@@ -101,7 +100,7 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
             Vector3f spawnPos = findInfernoSpawn(locationComponent.getWorldPosition());
             if (spawnPos != null) {
                 inventoryManager.removeItem(entity, entity, item, true);
-                character.send(new DoHealEvent(100000));
+                character.send(new RestoreFullHealthEvent(character));
                 character.send(new PlaySoundEvent(Assets.getSound("Inferno:EnterPortal").get(), 0.4f));
                 character.send(new EnterInfernoEvent(client));
                 teleportQueue.put(character, spawnPos);
