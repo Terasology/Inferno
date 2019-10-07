@@ -1,5 +1,5 @@
 {
-    "basedOn": "core:plant",
+    "basedOn": "CoreAssets:plant",
     "displayName": "Flaming Flower",
     "waving": true,
     "luminance": 15,

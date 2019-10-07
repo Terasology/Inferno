@@ -1,4 +1,4 @@
 {
     "displayName": "Infernal Brick",
-    "basedOn": "core:rock"
+    "basedOn": "CoreAssets:rock"
 }

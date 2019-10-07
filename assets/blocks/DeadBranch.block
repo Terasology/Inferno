@@ -1,6 +1,6 @@
 {
     "displayName": "Dead Branch",
     "replacementAllowed": true,
-    "basedOn": "core:plant",
+    "basedOn": "CoreAssets:plant",
     "translucent": true
 }

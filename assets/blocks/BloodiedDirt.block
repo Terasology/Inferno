@@ -1,4 +1,4 @@
 {
     "displayName": "Bloodied Dirt",
-    "basedOn": "core:soil"
+    "basedOn": "CoreAssets:soil"
 }
