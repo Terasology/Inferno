@@ -1,12 +1,6 @@
 Potential issue: https://github.com/iojw/Inferno/issues/1
 ### Installation Note
-Before loading the world make sure that the Inferno world generator is selected.
-- Click on the **Continue to Universe Setup** button when in the Advanced menu![](https://imgur.com/WcD3ix5.png)
-- Select **Inferno** from the World Generator dropdown and click Add ![](https://imgur.com/08tEiOc.png)
-- Click on **Continue to Pregeneration**
-- Click on **Continue to Spawn Preview**
-- Click on **Start Playing** and enjoy the game :)
-
+Before loading the world make sure that the Inferno world template is selected ![](http://i.imgur.com/6peH4c3.png)
 # Inferno
 
 **in·fer·no**  
