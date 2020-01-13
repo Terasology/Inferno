@@ -21,14 +21,14 @@ import org.terasology.caves.CaveToDensityProvider;
 import org.terasology.core.world.generator.facetProviders.BiomeProvider;
 import org.terasology.core.world.generator.facetProviders.DefaultFloraProvider;
 import org.terasology.core.world.generator.facetProviders.DefaultTreeProvider;
+import org.terasology.core.world.generator.facetProviders.PerlinBaseSurfaceProvider;
+import org.terasology.core.world.generator.facetProviders.PerlinHillsAndMountainsProvider;
+import org.terasology.core.world.generator.facetProviders.PerlinHumidityProvider;
+import org.terasology.core.world.generator.facetProviders.PerlinOceanProvider;
+import org.terasology.core.world.generator.facetProviders.PerlinRiverProvider;
+import org.terasology.core.world.generator.facetProviders.PerlinSurfaceTemperatureProvider;
 import org.terasology.core.world.generator.facetProviders.PlateauProvider;
 import org.terasology.core.world.generator.facetProviders.SeaLevelProvider;
-import org.terasology.core.world.generator.facetProviders.SimplexBaseSurfaceProvider;
-import org.terasology.core.world.generator.facetProviders.SimplexHillsAndMountainsProvider;
-import org.terasology.core.world.generator.facetProviders.SimplexHumidityProvider;
-import org.terasology.core.world.generator.facetProviders.SimplexOceanProvider;
-import org.terasology.core.world.generator.facetProviders.SimplexRiverProvider;
-import org.terasology.core.world.generator.facetProviders.SimplexSurfaceTemperatureProvider;
 import org.terasology.core.world.generator.facetProviders.SurfaceToDensityProvider;
 import org.terasology.core.world.generator.rasterizers.FloraRasterizer;
 import org.terasology.core.world.generator.rasterizers.SolidRasterizer;
@@ -76,12 +76,12 @@ public class InfernoWorldGenerator extends BaseFacetedWorldGenerator {
                 // default Perlin
                 .setSeaLevel(seaLevel)
                 .addProvider(new SeaLevelProvider(seaLevel))
-                .addProvider(new SimplexHumidityProvider())
-                .addProvider(new SimplexSurfaceTemperatureProvider())
-                .addProvider(new SimplexBaseSurfaceProvider())
-                .addProvider(new SimplexRiverProvider())
-                .addProvider(new SimplexOceanProvider())
-                .addProvider(new SimplexHillsAndMountainsProvider())
+                .addProvider(new PerlinHumidityProvider())
+                .addProvider(new PerlinSurfaceTemperatureProvider())
+                .addProvider(new PerlinBaseSurfaceProvider())
+                .addProvider(new PerlinRiverProvider())
+                .addProvider(new PerlinOceanProvider())
+                .addProvider(new PerlinHillsAndMountainsProvider())
                 .addProvider(new BiomeProvider())
                 .addProvider(new SurfaceToDensityProvider())
                 .addProvider(new DefaultFloraProvider())
