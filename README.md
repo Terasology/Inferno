@@ -1,5 +1,6 @@
 Potential issue: https://github.com/iojw/Inferno/issues/1
-
+### Installation Note
+Before loading the world make sure that the Inferno world template is selected ![](http://i.imgur.com/6peH4c3.png)
 # Inferno
 
 **in·fer·no**  
