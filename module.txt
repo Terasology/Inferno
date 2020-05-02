@@ -1,11 +1,10 @@
 {
     "id" : "Inferno",
-    "version" : "0.1.2-SNAPSHOT",
+    "version" : "0.2.0",
     "author" : "iojw",
     "displayName" : "Inferno",
     "description" : "A module that adds an additional dimension with spooky things.",
     "dependencies" : [
-        {"id": "Core", "minVersion" : "3.0.0"},
         {"id": "CoreBlocks", "minVersion" : "1.0.0"},
         {"id": "DamagingBlocks", "minVersion" : "0.2.0"},
         {"id": "ChiselBlocks","minVersion" : "0.1.0"}
