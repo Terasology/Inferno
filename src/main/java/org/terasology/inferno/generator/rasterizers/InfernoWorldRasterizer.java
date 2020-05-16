@@ -38,7 +38,7 @@ public class InfernoWorldRasterizer implements WorldRasterizer {
     public void initialize() {
         dirt = CoreRegistry.get(BlockManager.class).getBlock("Inferno:BloodiedStone");
         air = CoreRegistry.get(BlockManager.class).getBlock(BlockManager.AIR_ID);
-        lava = CoreRegistry.get(BlockManager.class).getBlock("CoreBlocks:Lava");
+        lava = CoreRegistry.get(BlockManager.class).getBlock("CoreAssets:Lava");
     }
 
     @Override
