@@ -1,17 +1,17 @@
 {
-    "id" : "Inferno",
-    "version" : "0.2.0",
-    "author" : "iojw",
-    "displayName" : "Inferno",
-    "description" : "A module that adds an additional dimension with spooky things.",
-    "dependencies" : [
-        {"id": "CoreBlocks", "minVersion" : "1.0.0"},
-        {"id": "DamagingBlocks", "minVersion" : "0.2.0"},
-        {"id": "ChiselBlocks","minVersion" : "0.1.0"},
-        {"id": "CoreWorlds", "minVersion" : "1.0.0"},
-        {"id": "Inventory", "minVersion" : "1.1.0"}
+    "id": "Inferno",
+    "version": "1.0.0",
+    "author": "iojw",
+    "displayName": "Inferno",
+    "description": "A module that adds an additional dimension with spooky things.",
+    "dependencies": [
+        { "id": "ChiselBlocks", "minVersion": "0.1.0" },
+        { "id": "CoreAssets", "minVersion": "2.0.1" },
+        { "id": "CoreWorlds", "minVersion": "1.0.0" },
+        { "id": "DamagingBlocks", "minVersion": "0.2.0" },
+        { "id": "Inventory", "minVersion": "1.1.0" }
     ],
-    "serverSideOnly" : false,
-    "isGameplay" : "true",
-    "defaultWorldGenerator" : "Inferno:InfernoWorld"
+    "serverSideOnly": false,
+    "isWorld": "true",
+    "defaultWorldGenerator": "Inferno:InfernoWorld"
 }
