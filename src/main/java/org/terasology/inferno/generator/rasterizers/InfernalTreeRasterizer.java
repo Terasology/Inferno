@@ -41,7 +41,7 @@ public class InfernalTreeRasterizer implements WorldRasterizer {
 
     @Override
     public void initialize() {
-        trunkBlock = CoreRegistry.get(BlockManager.class).getBlock("CoreBlocks:PineTrunk");
+        trunkBlock = CoreRegistry.get(BlockManager.class).getBlock("CoreAssets:PineTrunk");
         leafBlock = CoreRegistry.get(BlockManager.class).getBlock("Inferno:FireLeaf");
     }
 

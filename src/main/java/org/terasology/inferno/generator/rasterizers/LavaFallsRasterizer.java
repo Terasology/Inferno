@@ -37,7 +37,7 @@ public class LavaFallsRasterizer implements WorldRasterizer {
 
     @Override
     public void initialize() {
-        lava = CoreRegistry.get(BlockManager.class).getBlock("CoreBlocks:Lava");
+        lava = CoreRegistry.get(BlockManager.class).getBlock("CoreAssets:Lava");
     }
 
     @Override
