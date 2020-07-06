@@ -53,7 +53,7 @@ public class LavaFallsRasterizer implements WorldRasterizer {
             if (lavaFallsFacet.getWorld(position.x(), position.z())
                     && position.y > surfaceHeight - LAVA_WELL_DEPTH
                     && position.y < ceilingHeight + LAVA_WELL_DEPTH) {
-                chunk.setBlock(ChunkMath.calcBlockPos(position), lava);
+                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position), lava);
             }
         }
     }

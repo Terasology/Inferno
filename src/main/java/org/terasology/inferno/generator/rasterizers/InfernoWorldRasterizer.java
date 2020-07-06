@@ -52,15 +52,15 @@ public class InfernoWorldRasterizer implements WorldRasterizer {
             float ceilingHeight = ceilingFacet.getWorld(position.x, position.z);
 
             if (position.y > ceilingHeight && position.y < ceilingHeight + INFERNO_BORDER) {
-                chunk.setBlock(ChunkMath.calcBlockPos(position), dirt);
+                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position), dirt);
             } else if (position.y <= ceilingHeight && position.y > surfaceHeight) {
                 if (position.y <= lavaLevelFacet.getLavaLevel()) {
-                    chunk.setBlock(ChunkMath.calcBlockPos(position), lava);
+                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(position), lava);
                 } else {
-                    chunk.setBlock(ChunkMath.calcBlockPos(position), air);
+                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(position), air);
                 }
             } else if (position.y <= surfaceHeight) {
-                chunk.setBlock(ChunkMath.calcBlockPos(position), dirt);
+                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position), dirt);
             }
         }
     }

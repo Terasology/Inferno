@@ -67,14 +67,14 @@ public class InfernalTreeRasterizer implements WorldRasterizer {
                 Region3i canopyLayerRegion = Region3i.createFromMinAndSize(canopyStart, new Vector3i(blocksFromTrunk * 2 + 1, 1, blocksFromTrunk * 2 + 1));
                 for (Vector3i leafPos: canopyLayerRegion) {
                     if (chunk.getRegion().encompasses(leafPos)) {
-                        chunk.setBlock(ChunkMath.calcBlockPos(leafPos), leafBlock);
+                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(leafPos), leafBlock);
                     }
                 }
             }
             for (int height = 0; height < tree.getTrunkHeight(); height++) {
                 Vector3i newPos = new Vector3i(pos).subY(height);
                 if (chunk.getRegion().encompasses(newPos)) {
-                    chunk.setBlock(ChunkMath.calcBlockPos(newPos), trunkBlock);
+                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(newPos), trunkBlock);
                 }
             }
         }
