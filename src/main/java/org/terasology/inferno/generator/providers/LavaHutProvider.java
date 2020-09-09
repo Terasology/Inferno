@@ -1,49 +1,37 @@
-/*
- * Copyright 2016 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.inferno.generator.providers;
 
 import com.google.common.collect.Lists;
+import org.terasology.engine.math.Direction;
+import org.terasology.engine.utilities.procedural.Noise;
+import org.terasology.engine.utilities.procedural.WhiteNoise;
+import org.terasology.engine.world.generation.Border3D;
+import org.terasology.engine.world.generation.Facet;
+import org.terasology.engine.world.generation.FacetBorder;
+import org.terasology.engine.world.generation.FacetProvider;
+import org.terasology.engine.world.generation.GeneratingRegion;
+import org.terasology.engine.world.generation.Produces;
+import org.terasology.engine.world.generation.Requires;
 import org.terasology.inferno.generator.facets.InfernoCeilingHeightFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.inferno.generator.facets.LavaHutFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
 import org.terasology.inferno.generator.structures.LavaHut;
-import org.terasology.math.Direction;
 import org.terasology.math.TeraMath;
 import org.terasology.math.geom.BaseVector2i;
-import org.terasology.utilities.procedural.Noise;
-import org.terasology.utilities.procedural.WhiteNoise;
-import org.terasology.world.generation.Border3D;
-import org.terasology.world.generation.Facet;
-import org.terasology.world.generation.FacetBorder;
-import org.terasology.world.generation.FacetProvider;
-import org.terasology.world.generation.GeneratingRegion;
-import org.terasology.world.generation.Produces;
-import org.terasology.world.generation.Requires;
 
 import java.util.List;
 
 @Produces(LavaHutFacet.class)
-@Requires( {
+@Requires({
         @Facet(value = InfernoSurfaceHeightFacet.class, border = @FacetBorder(top = 15, bottom = 25, sides = 15)),
         @Facet(InfernoCeilingHeightFacet.class),
         @Facet(LavaLevelFacet.class)
 })
 public class LavaHutProvider implements FacetProvider {
-    private static final List<Direction> HORIZONTAL_DIRECTIONS = Lists.newArrayList(Direction.FORWARD, Direction.BACKWARD, Direction.LEFT, Direction.RIGHT);
+    private static final List<Direction> HORIZONTAL_DIRECTIONS = Lists.newArrayList(Direction.FORWARD,
+            Direction.BACKWARD, Direction.LEFT, Direction.RIGHT);
     private static final int MIN_SPAWN_HEIGHT = 25;
     private static final int MIN_LAVA_PADDING = 15;
     private static final int MIN_HUT_HEIGHT = 5;
@@ -73,7 +61,8 @@ public class LavaHutProvider implements FacetProvider {
         int lavaLevel = lavaLevelFacet.getLavaLevel();
         for (BaseVector2i position : surfaceHeightFacet.getWorldRegion().contents()) {
             float ceilingHeight = ceilingHeightFacet.getWorld(position);
-            float hutHeight = lavaLevel + TeraMath.clamp(Math.abs(heightNoise.noise(position.x(), position.y()) * MAX_HUT_HEIGHT), MIN_HUT_HEIGHT, MAX_HUT_HEIGHT);
+            float hutHeight =
+                    lavaLevel + TeraMath.clamp(Math.abs(heightNoise.noise(position.x(), position.y()) * MAX_HUT_HEIGHT), MIN_HUT_HEIGHT, MAX_HUT_HEIGHT);
             if (isOverLava(surfaceHeightFacet, position.x() + MIN_LAVA_PADDING, position.y(), lavaLevel)
                     && isOverLava(surfaceHeightFacet, position.x() - MIN_LAVA_PADDING, position.y(), lavaLevel)
                     && isOverLava(surfaceHeightFacet, position.x(), position.y() + MIN_LAVA_PADDING, lavaLevel)
@@ -93,7 +82,8 @@ public class LavaHutProvider implements FacetProvider {
                     hutLength = 9;
                 }
                 lavaHut.setLength(hutLength);
-                int dirIndex = Math.abs(Math.round(dirNoise.noise(position.x(), position.y()) * (HORIZONTAL_DIRECTIONS.size() - 1)));
+                int dirIndex =
+                        Math.abs(Math.round(dirNoise.noise(position.x(), position.y()) * (HORIZONTAL_DIRECTIONS.size() - 1)));
                 lavaHut.setHutDirection(HORIZONTAL_DIRECTIONS.get(dirIndex));
                 lavaHutFacet.setWorld(position.x(), (int) (hutHeight), position.y(), lavaHut);
             }

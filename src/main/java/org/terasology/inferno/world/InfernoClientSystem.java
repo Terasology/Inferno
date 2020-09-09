@@ -1,50 +1,37 @@
-/*
- * Copyright 2016 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.inferno.world;
 
-import org.terasology.audio.AudioManager;
-import org.terasology.audio.events.PlaySoundEvent;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.EventPriority;
-import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
-import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
+import org.terasology.engine.audio.AudioManager;
+import org.terasology.engine.audio.events.PlaySoundEvent;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.event.EventPriority;
+import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
+import org.terasology.engine.entitySystem.systems.RegisterMode;
+import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.entitySystem.systems.UpdateSubscriberSystem;
+import org.terasology.engine.logic.characters.CharacterComponent;
+import org.terasology.engine.logic.characters.CharacterTeleportEvent;
+import org.terasology.engine.logic.destruction.BeforeDestroyEvent;
+import org.terasology.engine.logic.location.LocationComponent;
+import org.terasology.engine.logic.players.LocalPlayer;
+import org.terasology.engine.math.Region3i;
+import org.terasology.engine.registry.In;
+import org.terasology.engine.utilities.Assets;
+import org.terasology.engine.world.WorldProvider;
+import org.terasology.engine.world.generation.Region;
+import org.terasology.engine.world.generation.World;
+import org.terasology.engine.world.generator.WorldGenerator;
+import org.terasology.health.logic.event.RestoreFullHealthEvent;
 import org.terasology.inferno.generator.facets.InfernoCeilingHeightFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
-import org.terasology.logic.characters.CharacterComponent;
-import org.terasology.logic.characters.CharacterTeleportEvent;
-import org.terasology.logic.health.BeforeDestroyEvent;
-import org.terasology.logic.health.event.RestoreFullHealthEvent;
-import org.terasology.logic.inventory.InventoryManager;
-import org.terasology.logic.inventory.InventoryUtils;
-import org.terasology.logic.location.LocationComponent;
-import org.terasology.logic.players.LocalPlayer;
-import org.terasology.math.Region3i;
+import org.terasology.inventory.logic.InventoryManager;
+import org.terasology.inventory.logic.InventoryUtils;
 import org.terasology.math.geom.BaseVector2i;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.math.geom.Vector3i;
-import org.terasology.registry.In;
-import org.terasology.utilities.Assets;
-import org.terasology.world.WorldProvider;
-import org.terasology.world.generation.Region;
-import org.terasology.world.generation.World;
-import org.terasology.world.generator.WorldGenerator;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,6 +42,7 @@ import static org.terasology.inferno.generator.InfernoWorldGenerator.INFERNO_DEP
 @RegisterSystem(RegisterMode.CLIENT)
 public class InfernoClientSystem extends BaseComponentSystem implements UpdateSubscriberSystem {
 
+    private final Map<EntityRef, Vector3f> teleportQueue = new HashMap<>();
     @In
     private WorldProvider worldProvider;
     @In
@@ -65,8 +53,6 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
     private InventoryManager inventoryManager;
     @In
     private AudioManager audioManager;
-
-    private Map<EntityRef, Vector3f> teleportQueue = new HashMap<>();
 
     @Override
     public void update(float delta) {
@@ -83,7 +69,8 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
     }
 
     @ReceiveEvent(priority = EventPriority.PRIORITY_HIGH)
-    public void onDeath(BeforeDestroyEvent event, EntityRef entity, CharacterComponent characterComponent, LocationComponent locationComponent) {
+    public void onDeath(BeforeDestroyEvent event, EntityRef entity, CharacterComponent characterComponent,
+                        LocationComponent locationComponent) {
         EntityRef character = localPlayer.getCharacterEntity();
         EntityRef client = localPlayer.getClientEntity();
         EntityRef item = EntityRef.NULL;
@@ -118,7 +105,8 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
     private Vector3f findInfernoSpawn(Vector3f currentPos) {
         World world = worldGenerator.getWorld();
         Vector3i searchRadius = new Vector3i(32, 1, 32);
-        Region3i searchArea = Region3i.createFromCenterExtents(new Vector3i(currentPos.x(), -INFERNO_DEPTH, currentPos.z()), searchRadius);
+        Region3i searchArea = Region3i.createFromCenterExtents(new Vector3i(currentPos.x(), -INFERNO_DEPTH,
+                currentPos.z()), searchRadius);
         Region worldRegion = world.getWorldData(searchArea);
 
         InfernoSurfaceHeightFacet surfaceHeightFacet = worldRegion.getFacet(InfernoSurfaceHeightFacet.class);

@@ -1,23 +1,14 @@
-/*
- * Copyright 2017 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.inferno.generator;
 
 import org.terasology.caves.CaveFacetProvider;
 import org.terasology.caves.CaveRasterizer;
 import org.terasology.caves.CaveToDensityProvider;
+import org.terasology.engine.world.generator.plugin.RegisterPlugin;
+import org.terasology.engine.world.zones.ConstantLayerThickness;
+import org.terasology.engine.world.zones.LayeredZoneRegionFunction;
+import org.terasology.engine.world.zones.ZonePlugin;
 import org.terasology.inferno.generator.providers.ElevationProvider;
 import org.terasology.inferno.generator.providers.FloraProvider;
 import org.terasology.inferno.generator.providers.InfernalTreeProvider;
@@ -31,14 +22,10 @@ import org.terasology.inferno.generator.rasterizers.InfernoFloraRasterizer;
 import org.terasology.inferno.generator.rasterizers.InfernoWorldRasterizer;
 import org.terasology.inferno.generator.rasterizers.LavaFallsRasterizer;
 import org.terasology.inferno.generator.rasterizers.LavaHutRasterizer;
-import org.terasology.world.generator.plugin.RegisterPlugin;
-import org.terasology.world.zones.ConstantLayerThickness;
-import org.terasology.world.zones.LayeredZoneRegionFunction;
-import org.terasology.world.zones.ZonePlugin;
 
+import static org.terasology.engine.world.zones.LayeredZoneRegionFunction.LayeredZoneOrdering.DEEP_UNDERGROUND;
 import static org.terasology.inferno.generator.InfernoWorldGenerator.INFERNO_DEPTH;
 import static org.terasology.inferno.generator.InfernoWorldGenerator.INFERNO_HEIGHT;
-import static org.terasology.world.zones.LayeredZoneRegionFunction.LayeredZoneOrdering.DEEP_UNDERGROUND;
 
 @RegisterPlugin
 public class InfernoZonePlugin extends ZonePlugin {

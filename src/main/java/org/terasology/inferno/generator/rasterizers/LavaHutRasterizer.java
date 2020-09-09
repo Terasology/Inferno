@@ -1,35 +1,22 @@
-/*
- * Copyright 2016 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.inferno.generator.rasterizers;
 
+import org.terasology.engine.math.ChunkMath;
+import org.terasology.engine.math.Region3i;
+import org.terasology.engine.registry.CoreRegistry;
+import org.terasology.engine.utilities.random.FastRandom;
+import org.terasology.engine.utilities.random.Random;
+import org.terasology.engine.world.block.Block;
+import org.terasology.engine.world.block.BlockManager;
+import org.terasology.engine.world.chunks.CoreChunk;
+import org.terasology.engine.world.generation.Region;
+import org.terasology.engine.world.generation.WorldRasterizer;
 import org.terasology.inferno.generator.facets.LavaHutFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
 import org.terasology.inferno.generator.structures.LavaHut;
-import org.terasology.math.ChunkMath;
-import org.terasology.math.Region3i;
 import org.terasology.math.geom.BaseVector3i;
 import org.terasology.math.geom.Vector3i;
-import org.terasology.registry.CoreRegistry;
-import org.terasology.utilities.random.FastRandom;
-import org.terasology.utilities.random.Random;
-import org.terasology.world.block.Block;
-import org.terasology.world.block.BlockManager;
-import org.terasology.world.chunks.CoreChunk;
-import org.terasology.world.generation.Region;
-import org.terasology.world.generation.WorldRasterizer;
 
 import java.util.Map;
 
@@ -41,13 +28,12 @@ public class LavaHutRasterizer implements WorldRasterizer {
     private static final float LOWER_CRACKED_BLOCK_PROB = 0.1f;
     private static final float PLATFORM_BLOCK_PROB = 0.9f;
     private static final float LAVA_SPAWN_PROB = 0.15f;
-
+    private final Random random = new FastRandom();
     private Block topBlock;
     private Block topBlockCracked;
     private Block lowerBlock;
     private Block lowerBlockCracked;
     private Block lava;
-    private Random random = new FastRandom();
 
     @Override
     public void initialize() {
@@ -75,8 +61,10 @@ public class LavaHutRasterizer implements WorldRasterizer {
                 int toInnerCenter = length / 2;
 
                 // platform
-                Region3i platformRegion = Region3i.createFromCenterExtents(position, new Vector3i(toOuterCenter, 0, toOuterCenter));
-                Region3i backPlatformRegion = Region3i.createFromCenterExtents(new Vector3i(position).add(new Vector3i(dirVector).mul(toOuterCenter)), new Vector3i(0, 0, toOuterCenter));
+                Region3i platformRegion = Region3i.createFromCenterExtents(position, new Vector3i(toOuterCenter, 0,
+                        toOuterCenter));
+                Region3i backPlatformRegion =
+                        Region3i.createFromCenterExtents(new Vector3i(position).add(new Vector3i(dirVector).mul(toOuterCenter)), new Vector3i(0, 0, toOuterCenter));
                 if (!isEncompassed(platformRegion, chunkRegion.getRegion())) {
                     continue;
                 }
@@ -89,17 +77,21 @@ public class LavaHutRasterizer implements WorldRasterizer {
 
                 // walls except top layer
                 Vector3i outerMin = new Vector3i(position).sub(toInnerCenter, 0, toInnerCenter);
-                Region3i outerWallRegion = Region3i.createFromMinAndSize(outerMin, new Vector3i(length, height, length));
+                Region3i outerWallRegion = Region3i.createFromMinAndSize(outerMin, new Vector3i(length, height,
+                        length));
                 Vector3i innerMin = new Vector3i(outerMin).add(1, 0, 1);
-                Region3i innerWallRegion = Region3i.createFromMinAndSize(innerMin, new Vector3i(length - 2, height + 2, length - 2));
+                Region3i innerWallRegion = Region3i.createFromMinAndSize(innerMin, new Vector3i(length - 2,
+                        height + 2, length - 2));
                 for (Vector3i blockPos : outerWallRegion) {
                     if (chunkRegion.getRegion().encompasses(blockPos) && !innerWallRegion.encompasses(blockPos) && random.nextFloat() <= WALL_BLOCK_PROB) {
                         placeWithProbability(chunk, blockPos, topBlockCracked, topBlock, UPPER_CRACKED_BLOCK_PROB);
                     }
                 }
                 // lava columns
-                Region3i topOuterWallRegion = Region3i.createFromMinAndSize(new Vector3i(innerMin).add(0, height - 1, 0), new Vector3i(length - 2, 1, length - 2));
-                Region3i topInnerWallRegion = Region3i.createFromMinAndSize(new Vector3i(innerMin).add(1, height - 1, 1), new Vector3i(length - 3, 1, length - 3));
+                Region3i topOuterWallRegion = Region3i.createFromMinAndSize(new Vector3i(innerMin).add(0, height - 1,
+                        0), new Vector3i(length - 2, 1, length - 2));
+                Region3i topInnerWallRegion = Region3i.createFromMinAndSize(new Vector3i(innerMin).add(1, height - 1,
+                        1), new Vector3i(length - 3, 1, length - 3));
                 for (Vector3i blockPos : topOuterWallRegion) {
                     if (chunkRegion.getRegion().encompasses(blockPos) && !topInnerWallRegion.encompasses(blockPos) && random.nextFloat() <= LAVA_SPAWN_PROB) {
                         Vector3i lavaPos = new Vector3i(blockPos);
@@ -111,7 +103,8 @@ public class LavaHutRasterizer implements WorldRasterizer {
                 }
 
                 // top layer
-                Region3i topLayerWallRegion = Region3i.createFromCenterExtents(new Vector3i(position).addY(height), new Vector3i(toInnerCenter, 0, toInnerCenter));
+                Region3i topLayerWallRegion = Region3i.createFromCenterExtents(new Vector3i(position).addY(height),
+                        new Vector3i(toInnerCenter, 0, toInnerCenter));
                 for (Vector3i blockPos : topLayerWallRegion) {
                     if (chunkRegion.getRegion().encompasses(blockPos) && !innerWallRegion.encompasses(blockPos) && random.nextFloat() <= WALL_TOP_BLOCK_PROB) {
                         placeWithProbability(chunk, blockPos, topBlockCracked, topBlock, UPPER_CRACKED_BLOCK_PROB);
@@ -123,15 +116,23 @@ public class LavaHutRasterizer implements WorldRasterizer {
                 Block stiltBlock;
                 while (chunkRegion.getRegion().encompasses(stiltsCenter) && stiltsCenter.y() >= lavaLevelFacet.getLavaLevel()) {
                     if (stiltsCenter.y() >= position.y()) {
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(stiltsCenter).add(toInnerCenter, 0, toInnerCenter)), topBlock);
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(stiltsCenter).add(-toInnerCenter, 0, toInnerCenter)), topBlock);
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(stiltsCenter).add(toInnerCenter, 0, -toInnerCenter)), topBlock);
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(stiltsCenter).add(-toInnerCenter, 0, -toInnerCenter)), topBlock);
+                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(stiltsCenter).add(toInnerCenter, 0
+                                , toInnerCenter)), topBlock);
+                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(stiltsCenter).add(-toInnerCenter,
+                                0, toInnerCenter)), topBlock);
+                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(stiltsCenter).add(toInnerCenter, 0
+                                , -toInnerCenter)), topBlock);
+                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(stiltsCenter).add(-toInnerCenter,
+                                0, -toInnerCenter)), topBlock);
                     } else {
-                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(toInnerCenter, 0, toInnerCenter), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
-                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(-toInnerCenter, 0, toInnerCenter), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
-                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(toInnerCenter, 0, -toInnerCenter), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
-                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(-toInnerCenter, 0, -toInnerCenter), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
+                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(toInnerCenter, 0, toInnerCenter),
+                                lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
+                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(-toInnerCenter, 0, toInnerCenter),
+                                lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
+                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(toInnerCenter, 0, -toInnerCenter),
+                                lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
+                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(-toInnerCenter, 0, -toInnerCenter)
+                                , lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
                     }
                     stiltsCenter.subY(1);
                 }

@@ -2,28 +2,27 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.caves;
 
-import org.terasology.entitySystem.Component;
+import org.terasology.engine.entitySystem.Component;
+import org.terasology.engine.utilities.procedural.AbstractNoise;
+import org.terasology.engine.utilities.procedural.Noise;
+import org.terasology.engine.utilities.procedural.PerlinNoise;
+import org.terasology.engine.utilities.procedural.SubSampledNoise;
+import org.terasology.engine.world.generation.ConfigurableFacetProvider;
+import org.terasology.engine.world.generation.Facet;
+import org.terasology.engine.world.generation.GeneratingRegion;
+import org.terasology.engine.world.generation.Produces;
+import org.terasology.engine.world.generation.Requires;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.math.geom.Vector3i;
 import org.terasology.nui.properties.Range;
-import org.terasology.utilities.procedural.AbstractNoise;
-import org.terasology.utilities.procedural.Noise;
-import org.terasology.utilities.procedural.PerlinNoise;
-import org.terasology.utilities.procedural.SubSampledNoise;
-import org.terasology.world.generation.ConfigurableFacetProvider;
-import org.terasology.world.generation.Facet;
-import org.terasology.world.generation.GeneratingRegion;
-import org.terasology.world.generation.Produces;
-import org.terasology.world.generation.Requires;
 
 @Produces(CaveFacet.class)
 @Requires(@Facet(InfernoSurfaceHeightFacet.class))
 public class CaveFacetProvider implements ConfigurableFacetProvider {
-    private CaveFacetProviderConfiguration configuration = new CaveFacetProviderConfiguration();
-
     Noise baseCaveNoise;
     Noise baseFadeCaveNoise;
+    private CaveFacetProviderConfiguration configuration = new CaveFacetProviderConfiguration();
 
     @Override
     public void setSeed(long seed) {
@@ -43,8 +42,10 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
         float noiseLevel = configuration.rawAmount;
 
         // at default settings,  make caves wider than tall.
-        SubSampledNoise caveNoise = new SubSampledNoise(new RidgedNoise(baseCaveNoise, 2), new Vector3f(0.06f * (1f / width), 0.09f * (1f / height), 0.06f * (1f / width)), 4);
-        SubSampledNoise fadeCaveNoise = new SubSampledNoise(baseFadeCaveNoise, new Vector3f(0.006f * (1f / width), 0.006f * (1f / height), 0.006f * (1f / width)), 1);
+        SubSampledNoise caveNoise = new SubSampledNoise(new RidgedNoise(baseCaveNoise, 2),
+                new Vector3f(0.06f * (1f / width), 0.09f * (1f / height), 0.06f * (1f / width)), 4);
+        SubSampledNoise fadeCaveNoise = new SubSampledNoise(baseFadeCaveNoise, new Vector3f(0.006f * (1f / width),
+                0.006f * (1f / height), 0.006f * (1f / width)), 1);
         CaveFacet facet = new CaveFacet(region.getRegion(), region.getBorderForFacet(CaveFacet.class));
         InfernoSurfaceHeightFacet surfaceHeightFacet = region.getRegionFacet(InfernoSurfaceHeightFacet.class);
 
@@ -57,16 +58,20 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
             if (depth > minDepth) {
                 float noiseValue = caveNoiseValues[facet.getWorldIndex(pos)];
                 // fade caves out as they reach the surface or above the surface
-                float fadeForSurfaceCutoff = Math.min(1f - amountOfCavesNearSurface, Math.max(0f, 1f - (depth / sharpSurfaceCutoffDepth)));
+                float fadeForSurfaceCutoff = Math.min(1f - amountOfCavesNearSurface, Math.max(0f,
+                        1f - (depth / sharpSurfaceCutoffDepth)));
                 // gradually decrease caves as they get closer to the surface
-                float fadeForScale = Math.max(0f, 1f - (depth / gradualIncreaseOverDepth)) * (1f - amountOfCavesNearSurface);
+                float fadeForScale =
+                        Math.max(0f, 1f - (depth / gradualIncreaseOverDepth)) * (1f - amountOfCavesNearSurface);
 
                 float noiseLevelIncrease = (1f - noiseLevel)
                         * (
                         Math.max(fadeForSurfaceCutoff, fadeForScale)
                                 // fade caves on a broad scale to stop them from being uniform
-                                // Amount added to the noise value: 1 = prevent all caves.  0 = allow normal perlin.  -1 = all caves
-                                + Math.max(0f, Math.abs(fadeCaveNoiseValues[facet.getWorldIndex(pos)]) + (2f * (1f - amountOfCaves)) - 1f)
+                                // Amount added to the noise value: 1 = prevent all caves.  0 = allow normal perlin. 
+                                // -1 = all caves
+                                + Math.max(0f,
+                                Math.abs(fadeCaveNoiseValues[facet.getWorldIndex(pos)]) + (2f * (1f - amountOfCaves)) - 1f)
                 );
 
                 facet.setWorld(pos, noiseValue > noiseLevel + noiseLevelIncrease);
@@ -119,14 +124,12 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
          * Default lacunarity value
          */
         public static final double DEFAULT_LACUNARITY = 2.1379201;
-
+        private final Noise other;
         private double lacunarity = DEFAULT_LACUNARITY;
         private double persistence = DEFAULT_PERSISTENCE;
-
         private int octaves;
         private float[] spectralWeights;
         private float scale;                // 1/sum of all weights
-        private final Noise other;
 
         /**
          * Initialize with 9 octaves - <b>this is quite expensive, but backwards compatible</b>
@@ -138,12 +141,20 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
         }
 
         /**
-         * @param other   other the noise to use as a basis
+         * @param other other the noise to use as a basis
          * @param octaves the number of octaves to use
          */
         public RidgedNoise(Noise other, int octaves) {
             this.other = other;
             setOctaves(octaves);
+        }
+
+        private static float computeScale(float[] spectralWeights) {
+            float sum = 0;
+            for (float weight : spectralWeights) {
+                sum += weight;
+            }
+            return 1.0f / sum;
         }
 
         /**
@@ -172,12 +183,11 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
             return result;// * scale;
         }
 
-        private static float computeScale(float[] spectralWeights) {
-            float sum = 0;
-            for (float weight : spectralWeights) {
-                sum += weight;
-            }
-            return 1.0f / sum;
+        /**
+         * @return the number of octaves
+         */
+        public int getOctaves() {
+            return octaves;
         }
 
         /**
@@ -189,15 +199,7 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
         }
 
         /**
-         * @return the number of octaves
-         */
-        public int getOctaves() {
-            return octaves;
-        }
-
-        /**
-         * Lacunarity is what makes the frequency grow. Each octave
-         * the frequency is multiplied by the lacunarity.
+         * Lacunarity is what makes the frequency grow. Each octave the frequency is multiplied by the lacunarity.
          *
          * @return the lacunarity
          */
@@ -206,8 +208,7 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
         }
 
         /**
-         * Lacunarity is what makes the frequency grow. Each octave
-         * the frequency is multiplied by the lacunarity.
+         * Lacunarity is what makes the frequency grow. Each octave the frequency is multiplied by the lacunarity.
          *
          * @param lacunarity the lacunarity
          */
@@ -216,8 +217,8 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
         }
 
         /**
-         * Persistence is what makes the amplitude shrink.
-         * More precicely the amplitude of octave i = lacunarity^(-persistence * i)
+         * Persistence is what makes the amplitude shrink. More precicely the amplitude of octave i =
+         * lacunarity^(-persistence * i)
          *
          * @return the persistance
          */
@@ -226,8 +227,8 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
         }
 
         /**
-         * Persistence is what makes the amplitude shrink.
-         * More precisely the amplitude of octave i = lacunarity^(-persistence * i)
+         * Persistence is what makes the amplitude shrink. More precisely the amplitude of octave i =
+         * lacunarity^(-persistence * i)
          *
          * @param persistence the persistence to set
          */

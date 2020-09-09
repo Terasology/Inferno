@@ -1,42 +1,29 @@
-/*
- * Copyright 2016 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.inferno.generator;
 
-import org.terasology.core.world.generator.facetProviders.BiomeProvider;
-import org.terasology.core.world.generator.facetProviders.DefaultFloraProvider;
-import org.terasology.core.world.generator.facetProviders.DefaultTreeProvider;
-import org.terasology.core.world.generator.facetProviders.PerlinBaseSurfaceProvider;
-import org.terasology.core.world.generator.facetProviders.PerlinHillsAndMountainsProvider;
-import org.terasology.core.world.generator.facetProviders.PerlinHumidityProvider;
-import org.terasology.core.world.generator.facetProviders.PerlinOceanProvider;
-import org.terasology.core.world.generator.facetProviders.PerlinRiverProvider;
-import org.terasology.core.world.generator.facetProviders.PerlinSurfaceTemperatureProvider;
-import org.terasology.core.world.generator.facetProviders.PlateauProvider;
-import org.terasology.core.world.generator.facetProviders.SeaLevelProvider;
-import org.terasology.core.world.generator.facetProviders.SurfaceToDensityProvider;
-import org.terasology.core.world.generator.rasterizers.FloraRasterizer;
-import org.terasology.core.world.generator.rasterizers.SolidRasterizer;
-import org.terasology.core.world.generator.rasterizers.TreeRasterizer;
-import org.terasology.engine.SimpleUri;
+import org.terasology.coreworlds.generator.facetProviders.BiomeProvider;
+import org.terasology.coreworlds.generator.facetProviders.DefaultFloraProvider;
+import org.terasology.coreworlds.generator.facetProviders.DefaultTreeProvider;
+import org.terasology.coreworlds.generator.facetProviders.PerlinBaseSurfaceProvider;
+import org.terasology.coreworlds.generator.facetProviders.PerlinHillsAndMountainsProvider;
+import org.terasology.coreworlds.generator.facetProviders.PerlinHumidityProvider;
+import org.terasology.coreworlds.generator.facetProviders.PerlinOceanProvider;
+import org.terasology.coreworlds.generator.facetProviders.PerlinRiverProvider;
+import org.terasology.coreworlds.generator.facetProviders.PerlinSurfaceTemperatureProvider;
+import org.terasology.coreworlds.generator.facetProviders.PlateauProvider;
+import org.terasology.coreworlds.generator.facetProviders.SeaLevelProvider;
+import org.terasology.coreworlds.generator.facetProviders.SurfaceToDensityProvider;
+import org.terasology.coreworlds.generator.rasterizers.FloraRasterizer;
+import org.terasology.coreworlds.generator.rasterizers.SolidRasterizer;
+import org.terasology.coreworlds.generator.rasterizers.TreeRasterizer;
+import org.terasology.engine.core.SimpleUri;
+import org.terasology.engine.registry.In;
+import org.terasology.engine.world.generation.BaseFacetedWorldGenerator;
+import org.terasology.engine.world.generation.WorldBuilder;
+import org.terasology.engine.world.generator.RegisterWorldGenerator;
+import org.terasology.engine.world.generator.plugin.WorldGeneratorPluginLibrary;
 import org.terasology.math.geom.ImmutableVector2i;
-import org.terasology.registry.In;
-import org.terasology.world.generation.BaseFacetedWorldGenerator;
-import org.terasology.world.generation.WorldBuilder;
-import org.terasology.world.generator.RegisterWorldGenerator;
-import org.terasology.world.generator.plugin.WorldGeneratorPluginLibrary;
 
 @RegisterWorldGenerator(id = "infernoWorld", displayName = "Inferno")
 public class InfernoWorldGenerator extends BaseFacetedWorldGenerator {
