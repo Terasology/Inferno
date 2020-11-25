@@ -35,6 +35,7 @@ import org.terasology.logic.inventory.InventoryManager;
 import org.terasology.logic.inventory.InventoryUtils;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.logic.players.LocalPlayer;
+import org.terasology.math.JomlUtil;
 import org.terasology.math.Region3i;
 import org.terasology.math.geom.BaseVector2i;
 import org.terasology.math.geom.Vector3f;
@@ -76,7 +77,7 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
                 Map.Entry<EntityRef, Vector3f> entry = teleportIt.next();
                 EntityRef character = entry.getKey();
                 Vector3f targetPos = entry.getValue();
-                character.send(new CharacterTeleportEvent(targetPos));
+                character.send(new CharacterTeleportEvent(JomlUtil.from(targetPos)));
                 teleportIt.remove();
             }
         }
