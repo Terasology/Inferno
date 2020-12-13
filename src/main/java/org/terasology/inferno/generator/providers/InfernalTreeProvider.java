@@ -15,17 +15,17 @@
  */
 package org.terasology.inferno.generator.providers;
 
+import org.joml.Vector2f;
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.inferno.generator.facets.InfernalTreeFacet;
 import org.terasology.inferno.generator.facets.InfernoCeilingHeightFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
-import org.terasology.inferno.generator.facets.LavaFallsFacet;
 import org.terasology.inferno.generator.structures.InfernalTree;
 import org.terasology.math.TeraMath;
 import org.terasology.math.geom.BaseVector2i;
-import org.terasology.math.geom.Vector2f;
-import org.terasology.math.geom.Vector3i;
 import org.terasology.utilities.procedural.BrownianNoise;
 import org.terasology.utilities.procedural.Noise;
 import org.terasology.utilities.procedural.SimplexNoise;
@@ -76,11 +76,11 @@ public class InfernalTreeProvider implements FacetProvider {
         for (BaseVector2i position : ceilingHeightFacet.getWorldRegion().contents()) {
             int ceilingHeight = (int) Math.floor(ceilingHeightFacet.getWorld(position));
             float surfaceHeight = surfaceHeightFacet.getWorld(position);
-            if (treeFacet.getWorldRegion().encompasses(position.x(), ceilingHeight, position.y())
+            if (treeFacet.getWorldRegion().containsPoint(position.x(), ceilingHeight, position.y())
                     && ceilingHeight - surfaceHeight > MIN_SPAWN_SPACE
                     && spawnNoise.noise(position.x(), position.y()) > 0.997) {
                 int trunkHeight = (int) TeraMath.clamp(heightNoise.noise(position.x(), position.y()) * MAX_TRUNK_HEIGHT, MIN_TRUNK_HEIGHT, MAX_TRUNK_HEIGHT);
-                Vector3i treePos = new Vector3i(position.x(), ceilingHeight, position.y());
+                Vector3ic treePos = new Vector3i(position.x(), ceilingHeight, position.y());
                 InfernalTree tree = new InfernalTree(trunkHeight, generateCanopy(trunkHeight));
                 treeFacet.setWorld(treePos, tree);
                 treeFacet.addTree(treePos);

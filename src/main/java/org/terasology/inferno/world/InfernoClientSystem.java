@@ -43,6 +43,8 @@ import org.terasology.math.geom.Vector3i;
 import org.terasology.registry.In;
 import org.terasology.utilities.Assets;
 import org.terasology.world.WorldProvider;
+import org.terasology.world.block.BlockRegion;
+import org.terasology.world.block.BlockRegions;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.World;
 import org.terasology.world.generator.WorldGenerator;
@@ -119,7 +121,7 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
     private Vector3f findInfernoSpawn(Vector3f currentPos) {
         World world = worldGenerator.getWorld();
         Vector3i searchRadius = new Vector3i(32, 1, 32);
-        Region3i searchArea = Region3i.createFromCenterExtents(new Vector3i(currentPos.x(), -INFERNO_DEPTH, currentPos.z()), searchRadius);
+        BlockRegion searchArea = BlockRegions.createFromCenterAndExtents(JomlUtil.from(new Vector3i(currentPos.x(), -INFERNO_DEPTH, currentPos.z())), JomlUtil.from(searchRadius));
         Region worldRegion = world.getWorldData(searchArea);
 
         InfernoSurfaceHeightFacet surfaceHeightFacet = worldRegion.getFacet(InfernoSurfaceHeightFacet.class);

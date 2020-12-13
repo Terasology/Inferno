@@ -15,16 +15,18 @@
  */
 package org.terasology.inferno.generator.rasterizers;
 
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 import org.terasology.inferno.generator.facets.InfernoCeilingHeightFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.inferno.generator.facets.LavaFallsFacet;
 import org.terasology.math.ChunkMath;
-import org.terasology.math.geom.Vector3i;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.utilities.random.FastRandom;
 import org.terasology.utilities.random.Random;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
+import org.terasology.world.block.BlockRegions;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
@@ -46,14 +48,14 @@ public class LavaFallsRasterizer implements WorldRasterizer {
         InfernoSurfaceHeightFacet surfaceFacet = chunkRegion.getFacet(InfernoSurfaceHeightFacet.class);
         InfernoCeilingHeightFacet ceilingFacet = chunkRegion.getFacet(InfernoCeilingHeightFacet.class);
 
-        for (Vector3i position : chunk.getRegion()) {
-            float surfaceHeight = surfaceFacet.getWorld(position.x, position.z);
-            float ceilingHeight = ceilingFacet.getWorld(position.x, position.z);
+        for (Vector3ic position : BlockRegions.iterableInPlace(chunk.getRegion())) {
+            float surfaceHeight = surfaceFacet.getWorld(position.x(), position.z());
+            float ceilingHeight = ceilingFacet.getWorld(position.x(), position.z());
 
             if (lavaFallsFacet.getWorld(position.x(), position.z())
-                    && position.y > surfaceHeight - LAVA_WELL_DEPTH
-                    && position.y < ceilingHeight + LAVA_WELL_DEPTH) {
-                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position), lava);
+                    && position.y() > surfaceHeight - LAVA_WELL_DEPTH
+                    && position.y() < ceilingHeight + LAVA_WELL_DEPTH) {
+                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, new Vector3i()), lava);
             }
         }
     }

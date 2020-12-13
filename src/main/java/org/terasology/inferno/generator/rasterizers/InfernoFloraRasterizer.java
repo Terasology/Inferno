@@ -15,21 +15,22 @@
  */
 package org.terasology.inferno.generator.rasterizers;
 
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 import org.terasology.inferno.generator.facets.FloraFacet;
 import org.terasology.math.ChunkMath;
-import org.terasology.math.geom.Vector3i;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.utilities.random.FastRandom;
 import org.terasology.utilities.random.Random;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
+import org.terasology.world.block.BlockRegions;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class InfernoFloraRasterizer implements WorldRasterizer {
     private Random random = new FastRandom();
@@ -45,10 +46,10 @@ public class InfernoFloraRasterizer implements WorldRasterizer {
     @Override
     public void generateChunk(CoreChunk chunk, Region chunkRegion) {
         FloraFacet floraFacet = chunkRegion.getFacet(FloraFacet.class);
-        for (Vector3i position : chunkRegion.getRegion()) {
+        for (Vector3ic position : BlockRegions.iterableInPlace(chunkRegion.getRegion())) {
             if (floraFacet.getWorld(position)
-                    && chunk.getBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(position).subY(1))).getURI() != BlockManager.AIR_ID) {
-                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position), getRandomFlora());
+                    && chunk.getBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(position).sub(0,1,0), new Vector3i())).getURI() != BlockManager.AIR_ID) {
+                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, new Vector3i()), getRandomFlora());
             }
         }
     }

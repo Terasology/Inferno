@@ -15,14 +15,16 @@
  */
 package org.terasology.inferno.generator.rasterizers;
 
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 import org.terasology.inferno.generator.facets.InfernoCeilingHeightFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
 import org.terasology.math.ChunkMath;
-import org.terasology.math.geom.Vector3i;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
+import org.terasology.world.block.BlockRegions;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
@@ -47,20 +49,20 @@ public class InfernoWorldRasterizer implements WorldRasterizer {
         InfernoCeilingHeightFacet ceilingFacet = chunkRegion.getFacet(InfernoCeilingHeightFacet.class);
         LavaLevelFacet lavaLevelFacet = chunkRegion.getFacet(LavaLevelFacet.class);
 
-        for (Vector3i position : chunkRegion.getRegion()) {
-            float surfaceHeight = surfaceFacet.getWorld(position.x, position.z);
-            float ceilingHeight = ceilingFacet.getWorld(position.x, position.z);
+        for (Vector3ic position : BlockRegions.iterableInPlace(chunkRegion.getRegion())) {
+            float surfaceHeight = surfaceFacet.getWorld(position.x(), position.z());
+            float ceilingHeight = ceilingFacet.getWorld(position.x(), position.z());
 
-            if (position.y > ceilingHeight && position.y < ceilingHeight + INFERNO_BORDER) {
-                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position), dirt);
-            } else if (position.y <= ceilingHeight && position.y > surfaceHeight) {
-                if (position.y <= lavaLevelFacet.getLavaLevel()) {
-                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(position), lava);
+            if (position.y() > ceilingHeight && position.y() < ceilingHeight + INFERNO_BORDER) {
+                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, new Vector3i()), dirt);
+            } else if (position.y() <= ceilingHeight && position.y() > surfaceHeight) {
+                if (position.y() <= lavaLevelFacet.getLavaLevel()) {
+                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, new Vector3i()), lava);
                 } else {
-                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(position), air);
+                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, new Vector3i()), air);
                 }
-            } else if (position.y <= surfaceHeight) {
-                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position), dirt);
+            } else if (position.y() <= surfaceHeight) {
+                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, new Vector3i()), dirt);
             }
         }
     }
