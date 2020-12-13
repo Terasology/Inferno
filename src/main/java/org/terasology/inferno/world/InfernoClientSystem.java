@@ -51,7 +51,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import static org.terasology.inferno.generator.InfernoWorldGenerator.INFERNO_DEPTH;
+import static org.terasology.inferno.generator.InfernoZonePlugin.INFERNO_DEPTH;
 
 @RegisterSystem(RegisterMode.CLIENT)
 public class InfernoClientSystem extends BaseComponentSystem implements UpdateSubscriberSystem {

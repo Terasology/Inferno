@@ -27,7 +27,7 @@ import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
 
-import static org.terasology.inferno.generator.InfernoWorldGenerator.INFERNO_BORDER;
+import static org.terasology.inferno.generator.InfernoZonePlugin.INFERNO_BORDER;
 
 public class InfernoWorldRasterizer implements WorldRasterizer {
     private Block dirt;
