@@ -22,12 +22,10 @@ import org.slf4j.LoggerFactory;
 import org.terasology.inferno.generator.facets.InfernalTreeFacet;
 import org.terasology.inferno.generator.structures.InfernalTree;
 import org.terasology.math.ChunkMath;
-import org.terasology.math.Region3i;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
 import org.terasology.world.block.BlockRegion;
-import org.terasology.world.block.BlockRegions;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
@@ -66,16 +64,16 @@ public class InfernalTreeRasterizer implements WorldRasterizer {
                     continue;
                 }
                 Vector3i canopyStart = new Vector3i(pos.x() - blocksFromTrunk, pos.y() - height, pos.z() - blocksFromTrunk);
-                BlockRegion canopyLayerRegion = BlockRegions.createFromMinAndSize(canopyStart, new Vector3i(blocksFromTrunk * 2 + 1, 1, blocksFromTrunk * 2 + 1));
-                for (Vector3ic leafPos: BlockRegions.iterableInPlace(canopyLayerRegion)) {
-                    if (chunk.getRegion().containsPoint(leafPos)) {
+                BlockRegion canopyLayerRegion = new BlockRegion(canopyStart).setSize(blocksFromTrunk * 2 + 1, 1, blocksFromTrunk * 2 + 1);
+                for (Vector3ic leafPos: canopyLayerRegion) {
+                    if (chunk.getRegion().contains(leafPos)) {
                         chunk.setBlock(ChunkMath.calcRelativeBlockPos(leafPos, new Vector3i()), leafBlock);
                     }
                 }
             }
             for (int height = 0; height < tree.getTrunkHeight(); height++) {
                 Vector3i newPos = new Vector3i(pos).sub(0,height,0);
-                if (chunk.getRegion().containsPoint(newPos)) {
+                if (chunk.getRegion().contains(newPos)) {
                     chunk.setBlock(ChunkMath.calcRelativeBlockPos(newPos, new Vector3i()), trunkBlock);
                 }
             }

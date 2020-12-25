@@ -4,6 +4,7 @@ package org.terasology.caves;
 
 import org.joml.Vector3f;
 import org.joml.Vector3i;
+import org.joml.Vector3ic;
 import org.terasology.entitySystem.Component;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.math.JomlUtil;
@@ -12,7 +13,6 @@ import org.terasology.utilities.procedural.AbstractNoise;
 import org.terasology.utilities.procedural.Noise;
 import org.terasology.utilities.procedural.PerlinNoise;
 import org.terasology.utilities.procedural.SubSampledNoise;
-import org.terasology.world.block.BlockRegions;
 import org.terasology.world.generation.ConfigurableFacetProvider;
 import org.terasology.world.generation.Facet;
 import org.terasology.world.generation.GeneratingRegion;
@@ -54,7 +54,8 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
         float[] caveNoiseValues = caveNoise.noise(facet.getWorldRegion());
         float[] fadeCaveNoiseValues = fadeCaveNoise.noise(facet.getWorldRegion());
 
-        for (Vector3i pos : BlockRegions.iterable(region.getRegion())) {
+        for (Vector3ic position : region.getRegion()) {
+            Vector3i pos = new Vector3i(position);
             float depth = surfaceHeightFacet.getWorld(pos.x, pos.z) - pos.y;
             if (depth > minDepth) {
                 float noiseValue = caveNoiseValues[facet.getWorldIndex(JomlUtil.from(pos))];

@@ -80,7 +80,7 @@ public class LavaHutProvider implements FacetProvider {
                     && isOverLava(surfaceHeightFacet, position.x(), position.y() - MIN_LAVA_PADDING, lavaLevel)
                     && ceilingHeight - lavaLevel >= MIN_SPAWN_HEIGHT
                     && spawnNoise.noise(position.x(), position.y()) > 0.998
-                    && lavaHutFacet.getWorldRegion().containsPoint(position.x(), (int) hutHeight, position.y())) {
+                    && lavaHutFacet.getWorldRegion().contains(position.x(), (int) hutHeight, position.y())) {
                 // todo: not hardcoded
                 int hutLength;
                 float lengthNoiseVal = Math.abs(hutLengthNoise.noise(position.x(), position.y()));

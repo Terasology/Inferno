@@ -24,7 +24,6 @@ import org.terasology.math.ChunkMath;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
-import org.terasology.world.block.BlockRegions;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
@@ -49,7 +48,7 @@ public class InfernoWorldRasterizer implements WorldRasterizer {
         InfernoCeilingHeightFacet ceilingFacet = chunkRegion.getFacet(InfernoCeilingHeightFacet.class);
         LavaLevelFacet lavaLevelFacet = chunkRegion.getFacet(LavaLevelFacet.class);
 
-        for (Vector3ic position : BlockRegions.iterableInPlace(chunkRegion.getRegion())) {
+        for (Vector3ic position : chunkRegion.getRegion()) {
             float surfaceHeight = surfaceFacet.getWorld(position.x(), position.z());
             float ceilingHeight = ceilingFacet.getWorld(position.x(), position.z());
 

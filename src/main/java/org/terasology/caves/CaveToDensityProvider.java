@@ -16,7 +16,7 @@
 package org.terasology.caves;
 
 import org.joml.Vector3i;
-import org.terasology.world.block.BlockRegions;
+import org.joml.Vector3ic;
 import org.terasology.world.generation.Facet;
 import org.terasology.world.generation.FacetProvider;
 import org.terasology.world.generation.GeneratingRegion;
@@ -36,7 +36,8 @@ public class CaveToDensityProvider implements FacetProvider {
         CaveFacet caveFacet = region.getRegionFacet(CaveFacet.class);
         DensityFacet densityFacet = region.getRegionFacet(DensityFacet.class);
 
-        for (Vector3i pos : BlockRegions.iterable(region.getRegion())) {
+        for (Vector3ic position : region.getRegion()) {
+            Vector3i pos = new Vector3i(position);
             if (caveFacet.getWorld(pos)) {
                 densityFacet.setWorld(pos, -1f);
             }

@@ -76,7 +76,7 @@ public class InfernalTreeProvider implements FacetProvider {
         for (BaseVector2i position : ceilingHeightFacet.getWorldRegion().contents()) {
             int ceilingHeight = (int) Math.floor(ceilingHeightFacet.getWorld(position));
             float surfaceHeight = surfaceHeightFacet.getWorld(position);
-            if (treeFacet.getWorldRegion().containsPoint(position.x(), ceilingHeight, position.y())
+            if (treeFacet.getWorldRegion().contains(position.x(), ceilingHeight, position.y())
                     && ceilingHeight - surfaceHeight > MIN_SPAWN_SPACE
                     && spawnNoise.noise(position.x(), position.y()) > 0.997) {
                 int trunkHeight = (int) TeraMath.clamp(heightNoise.noise(position.x(), position.y()) * MAX_TRUNK_HEIGHT, MIN_TRUNK_HEIGHT, MAX_TRUNK_HEIGHT);

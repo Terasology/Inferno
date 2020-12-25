@@ -22,14 +22,12 @@ import org.terasology.inferno.generator.facets.LavaLevelFacet;
 import org.terasology.inferno.generator.structures.LavaHut;
 import org.terasology.math.ChunkMath;
 import org.terasology.math.JomlUtil;
-import org.terasology.math.Region3i;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.utilities.random.FastRandom;
 import org.terasology.utilities.random.Random;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
 import org.terasology.world.block.BlockRegion;
-import org.terasology.world.block.BlockRegions;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
@@ -69,7 +67,7 @@ public class LavaHutRasterizer implements WorldRasterizer {
         for (Map.Entry<Vector3ic, LavaHut> entry : lavaHutFacet.getWorldEntries().entrySet()) {
             Vector3i position = new Vector3i(entry.getKey());
             LavaHut lavaHut = entry.getValue();
-            if (lavaHut != null && chunk.getRegion().containsPoint(position)) {
+            if (lavaHut != null && chunk.getRegion().contains(position)) {
                 Vector3i dirVector = JomlUtil.from(lavaHut.getHutDirection().getVector3i());
                 int length = lavaHut.getLength();
                 int height = lavaHut.getHeight();
@@ -78,35 +76,36 @@ public class LavaHutRasterizer implements WorldRasterizer {
                 int toInnerCenter = length / 2;
 
                 // platform
-                BlockRegion platformRegion = BlockRegions.createFromCenterAndExtents(position, new Vector3i(toOuterCenter, 0, toOuterCenter));
-                BlockRegion backPlatformRegion = BlockRegions.createFromCenterAndExtents(new Vector3i(position).add(new Vector3i(dirVector).mul(toOuterCenter)), new Vector3i(0, 0, toOuterCenter));
+                BlockRegion platformRegion = new BlockRegion(position).expand(toOuterCenter, 0, toOuterCenter);
+                BlockRegion backPlatformRegion = new BlockRegion(position.add(new Vector3i(dirVector).mul(toOuterCenter))).expand(0, 0, toOuterCenter);
                 if (!isEncompassed(platformRegion, chunkRegion.getRegion())) {
                     continue;
                 }
-                for (Vector3ic blockPos : BlockRegions.iterableInPlace(platformRegion)) {
+                for (Vector3ic blockPos : platformRegion) {
                     float platformBlockProb = random.nextFloat();
-                    if (chunkRegion.getRegion().containsPoint(blockPos) && !backPlatformRegion.containsPoint(blockPos) && platformBlockProb <= PLATFORM_BLOCK_PROB) {
+                    if (chunkRegion.getRegion().contains(blockPos) && !backPlatformRegion.contains(blockPos) && platformBlockProb <= PLATFORM_BLOCK_PROB) {
                         chunk.setBlock(ChunkMath.calcRelativeBlockPos(blockPos, new Vector3i()), topBlock);
                     }
                 }
 
                 // walls except top layer
                 Vector3i outerMin = new Vector3i(position).sub(toInnerCenter, 0, toInnerCenter);
-                BlockRegion outerWallRegion = BlockRegions.createFromMinAndSize(outerMin, new Vector3i(length, height, length));
+                BlockRegion outerWallRegion = new BlockRegion(outerMin).setSize(length, height, length);
                 Vector3i innerMin = new Vector3i(outerMin).add(1, 0, 1);
-                BlockRegion innerWallRegion = BlockRegions.createFromMinAndSize(innerMin, new Vector3i(length - 2, height + 2, length - 2));
-                for (Vector3i blockPos : BlockRegions.iterable(outerWallRegion)) {
-                    if (chunkRegion.getRegion().containsPoint(blockPos) && !innerWallRegion.containsPoint(blockPos) && random.nextFloat() <= WALL_BLOCK_PROB) {
+                BlockRegion innerWallRegion = new BlockRegion(innerMin).setSize(length - 2, height + 2, length - 2);
+                for (Vector3ic blockPosition : outerWallRegion) {
+                    Vector3i blockPos = new Vector3i(blockPosition);
+                    if (chunkRegion.getRegion().contains(blockPos) && !innerWallRegion.contains(blockPos) && random.nextFloat() <= WALL_BLOCK_PROB) {
                         placeWithProbability(chunk, blockPos, topBlockCracked, topBlock, UPPER_CRACKED_BLOCK_PROB);
                     }
                 }
                 // lava columns
-                BlockRegion topOuterWallRegion = BlockRegions.createFromMinAndSize(new Vector3i(innerMin).add(0, height - 1, 0), new Vector3i(length - 2, 1, length - 2));
-                BlockRegion topInnerWallRegion = BlockRegions.createFromMinAndSize(new Vector3i(innerMin).add(1, height - 1, 1), new Vector3i(length - 3, 1, length - 3));
-                for (Vector3ic blockPos : BlockRegions.iterableInPlace(topOuterWallRegion)) {
-                    if (chunkRegion.getRegion().containsPoint(blockPos) && !topInnerWallRegion.containsPoint(blockPos) && random.nextFloat() <= LAVA_SPAWN_PROB) {
+                BlockRegion topOuterWallRegion = new BlockRegion(innerMin.add(0, height - 1, 0)).setSize(length - 2, 1, length - 2);
+                BlockRegion topInnerWallRegion = new BlockRegion(innerMin.add(1, height - 1, 1)).setSize(length - 3, 1, length - 3);
+                for (Vector3ic blockPos : topOuterWallRegion) {
+                    if (chunkRegion.getRegion().contains(blockPos) && !topInnerWallRegion.contains(blockPos) && random.nextFloat() <= LAVA_SPAWN_PROB) {
                         Vector3i lavaPos = new Vector3i(blockPos);
-                        while (chunk.getRegion().containsPoint(lavaPos) && lavaPos.y() >= lavaLevelFacet.getLavaLevel()) {
+                        while (chunk.getRegion().contains(lavaPos) && lavaPos.y() >= lavaLevelFacet.getLavaLevel()) {
                             chunk.setBlock(ChunkMath.calcRelativeBlockPos(lavaPos, new Vector3i()), lava);
                             lavaPos.sub(0,1,0);
                         }
@@ -114,9 +113,10 @@ public class LavaHutRasterizer implements WorldRasterizer {
                 }
 
                 // top layer
-                BlockRegion topLayerWallRegion = BlockRegions.createFromCenterAndExtents(new Vector3i(position).add(0,height,0), new Vector3i(toInnerCenter, 0, toInnerCenter));
-                for (Vector3i blockPos : BlockRegions.iterable(topLayerWallRegion)) {
-                    if (chunkRegion.getRegion().containsBlock(blockPos) && !innerWallRegion.containsBlock(blockPos) && random.nextFloat() <= WALL_TOP_BLOCK_PROB) {
+                BlockRegion topLayerWallRegion = new BlockRegion(position.add(0,height,0)).expand(toInnerCenter, 0, toInnerCenter);
+                for (Vector3ic blockPosition : topLayerWallRegion) {
+                    Vector3i blockPos = new Vector3i(blockPosition);
+                    if (chunkRegion.getRegion().contains(blockPos) && !innerWallRegion.contains(blockPos) && random.nextFloat() <= WALL_TOP_BLOCK_PROB) {
                         placeWithProbability(chunk, blockPos, topBlockCracked, topBlock, UPPER_CRACKED_BLOCK_PROB);
                     }
                 }
@@ -124,7 +124,7 @@ public class LavaHutRasterizer implements WorldRasterizer {
                 // stilts
                 Vector3i stiltsCenter = new Vector3i(position).add(0,height - 1,0);
                 Block stiltBlock;
-                while (chunkRegion.getRegion().containsBlock(stiltsCenter) && stiltsCenter.y() >= lavaLevelFacet.getLavaLevel()) {
+                while (chunkRegion.getRegion().contains(stiltsCenter) && stiltsCenter.y() >= lavaLevelFacet.getLavaLevel()) {
                     if (stiltsCenter.y() >= position.y()) {
                         chunk.setBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(stiltsCenter).add(toInnerCenter, 0, toInnerCenter), new Vector3i()), topBlock);
                         chunk.setBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(stiltsCenter).add(-toInnerCenter, 0, toInnerCenter), new Vector3i()), topBlock);
@@ -143,8 +143,8 @@ public class LavaHutRasterizer implements WorldRasterizer {
     }
 
     private boolean isEncompassed(BlockRegion checkRegion, BlockRegion chunkRegion) {
-        for (Vector3ic pos : BlockRegions.iterableInPlace(checkRegion)) {
-            if (!chunkRegion.containsBlock(pos)) {
+        for (Vector3ic pos : checkRegion) {
+            if (!chunkRegion.contains(pos)) {
                 return false;
             }
         }

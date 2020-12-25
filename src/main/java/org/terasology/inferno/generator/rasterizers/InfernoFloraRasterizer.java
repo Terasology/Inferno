@@ -24,7 +24,6 @@ import org.terasology.utilities.random.FastRandom;
 import org.terasology.utilities.random.Random;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
-import org.terasology.world.block.BlockRegions;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
@@ -46,7 +45,7 @@ public class InfernoFloraRasterizer implements WorldRasterizer {
     @Override
     public void generateChunk(CoreChunk chunk, Region chunkRegion) {
         FloraFacet floraFacet = chunkRegion.getFacet(FloraFacet.class);
-        for (Vector3ic position : BlockRegions.iterableInPlace(chunkRegion.getRegion())) {
+        for (Vector3ic position : chunkRegion.getRegion()) {
             if (floraFacet.getWorld(position)
                     && chunk.getBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(position).sub(0,1,0), new Vector3i())).getURI() != BlockManager.AIR_ID) {
                 chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, new Vector3i()), getRandomFlora());

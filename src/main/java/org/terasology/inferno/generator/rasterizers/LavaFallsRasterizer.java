@@ -26,7 +26,6 @@ import org.terasology.utilities.random.FastRandom;
 import org.terasology.utilities.random.Random;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
-import org.terasology.world.block.BlockRegions;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
@@ -48,7 +47,7 @@ public class LavaFallsRasterizer implements WorldRasterizer {
         InfernoSurfaceHeightFacet surfaceFacet = chunkRegion.getFacet(InfernoSurfaceHeightFacet.class);
         InfernoCeilingHeightFacet ceilingFacet = chunkRegion.getFacet(InfernoCeilingHeightFacet.class);
 
-        for (Vector3ic position : BlockRegions.iterableInPlace(chunk.getRegion())) {
+        for (Vector3ic position : chunk.getRegion()) {
             float surfaceHeight = surfaceFacet.getWorld(position.x(), position.z());
             float ceilingHeight = ceilingFacet.getWorld(position.x(), position.z());
 
