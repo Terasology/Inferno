@@ -1,6 +1,6 @@
 {
     "id": "Inferno",
-    "version": "1.0.0",
+    "version": "1.0.0-SNAPSHOT",
     "author": "iojw",
     "displayName": "Inferno",
     "description": "A module that adds an additional dimension with spooky things.",
