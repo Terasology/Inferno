@@ -15,9 +15,10 @@
  */
 package org.terasology.inferno.generator.facets;
 
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 import org.terasology.inferno.generator.structures.InfernalTree;
-import org.terasology.math.Region3i;
-import org.terasology.math.geom.Vector3i;
+import org.terasology.world.block.BlockRegion;
 import org.terasology.world.generation.Border3D;
 import org.terasology.world.generation.facets.base.SparseObjectFacet3D;
 
@@ -25,19 +26,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InfernalTreeFacet extends SparseObjectFacet3D<InfernalTree> {
-    private List<Vector3i> treesPos = new ArrayList<Vector3i>();
+    private List<Vector3ic> treesPos = new ArrayList<Vector3ic>();
 
-    public InfernalTreeFacet(Region3i targetRegion, Border3D border) {
+    public InfernalTreeFacet(BlockRegion targetRegion, Border3D border) {
         super(targetRegion, border);
     }
 
-    public void addTree(Vector3i pos) {
+    public void addTree(Vector3ic pos) {
         treesPos.add(pos);
     }
 
     public double getDistanceToNearestTree(Vector3i pos) {
         double distanceToNearest = -1f;
-        for (Vector3i treePos: treesPos) {
+        for (Vector3ic treePos: treesPos) {
             if (treePos == pos) {
                 continue;
             }

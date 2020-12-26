@@ -49,7 +49,7 @@ public class FloraProvider implements FacetProvider {
             int surfaceHeight = (int) Math.ceil(surfaceHeightFacet.getWorld(position));
 
             float n = noise.noise(position.x(), position.y());
-            if (facet.getWorldRegion().encompasses(position.x(), surfaceHeight, position.y())
+            if (facet.getWorldRegion().contains(position.x(), surfaceHeight, position.y())
                     && surfaceHeight > lavaLevelFacet.getLavaLevel()
                     && noise.noise(position.x(), position.y()) > 0.96) {
                 facet.setWorld(position.x(), surfaceHeight, position.y(), true);

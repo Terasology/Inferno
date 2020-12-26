@@ -15,13 +15,13 @@
  */
 package org.terasology.caves;
 
-import org.terasology.math.Region3i;
 import org.terasology.math.geom.Vector3i;
+import org.terasology.world.block.BlockRegion;
 import org.terasology.world.generation.Border3D;
 import org.terasology.world.generation.facets.base.BaseBooleanFieldFacet3D;
 
 public class CaveFacet extends BaseBooleanFieldFacet3D {
-    public CaveFacet(Region3i targetRegion, Border3D border) {
+    public CaveFacet(BlockRegion targetRegion, Border3D border) {
         super(targetRegion, border);
     }
 
