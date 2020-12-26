@@ -81,10 +81,11 @@ public class LavaHutRasterizer implements WorldRasterizer {
                 if (!isEncompassed(platformRegion, chunkRegion.getRegion())) {
                     continue;
                 }
+                Vector3i tempPos = new Vector3i();
                 for (Vector3ic blockPos : platformRegion) {
                     float platformBlockProb = random.nextFloat();
                     if (chunkRegion.getRegion().contains(blockPos) && !backPlatformRegion.contains(blockPos) && platformBlockProb <= PLATFORM_BLOCK_PROB) {
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(blockPos, new Vector3i()), topBlock);
+                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(blockPos, tempPos), topBlock);
                     }
                 }
 
@@ -126,15 +127,15 @@ public class LavaHutRasterizer implements WorldRasterizer {
                 Block stiltBlock;
                 while (chunkRegion.getRegion().contains(stiltsCenter) && stiltsCenter.y() >= lavaLevelFacet.getLavaLevel()) {
                     if (stiltsCenter.y() >= position.y()) {
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(stiltsCenter).add(toInnerCenter, 0, toInnerCenter), new Vector3i()), topBlock);
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(stiltsCenter).add(-toInnerCenter, 0, toInnerCenter), new Vector3i()), topBlock);
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(stiltsCenter).add(toInnerCenter, 0, -toInnerCenter), new Vector3i()), topBlock);
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(stiltsCenter).add(-toInnerCenter, 0, -toInnerCenter), new Vector3i()), topBlock);
+                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(stiltsCenter.add(toInnerCenter, 0, toInnerCenter, tempPos), tempPos), topBlock);
+                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(stiltsCenter.add(-toInnerCenter, 0, toInnerCenter, tempPos), tempPos), topBlock);
+                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(stiltsCenter.add(toInnerCenter, 0, -toInnerCenter, tempPos), tempPos), topBlock);
+                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(stiltsCenter.add(-toInnerCenter, 0, -toInnerCenter, tempPos), tempPos), topBlock);
                     } else {
-                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(toInnerCenter, 0, toInnerCenter), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
-                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(-toInnerCenter, 0, toInnerCenter), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
-                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(toInnerCenter, 0, -toInnerCenter), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
-                        placeWithProbability(chunk, new Vector3i(stiltsCenter).add(-toInnerCenter, 0, -toInnerCenter), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
+                        placeWithProbability(chunk, stiltsCenter.add(toInnerCenter, 0, toInnerCenter, tempPos), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
+                        placeWithProbability(chunk, stiltsCenter.add(-toInnerCenter, 0, toInnerCenter, tempPos), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
+                        placeWithProbability(chunk, stiltsCenter.add(toInnerCenter, 0, -toInnerCenter, tempPos), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
+                        placeWithProbability(chunk, stiltsCenter.add(-toInnerCenter, 0, -toInnerCenter, tempPos), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
                     }
                     stiltsCenter.sub(0,1,0);
                 }

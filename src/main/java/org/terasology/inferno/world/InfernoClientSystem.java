@@ -15,6 +15,7 @@
  */
 package org.terasology.inferno.world;
 
+import org.joml.RoundingMode;
 import org.terasology.audio.AudioManager;
 import org.terasology.audio.events.PlaySoundEvent;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -84,7 +85,8 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
     }
 
     @ReceiveEvent(priority = EventPriority.PRIORITY_HIGH)
-    public void onDeath(BeforeDestroyEvent event, EntityRef entity, CharacterComponent characterComponent, LocationComponent locationComponent) {
+    public void onDeath(BeforeDestroyEvent event, EntityRef entity, CharacterComponent characterComponent,
+                        LocationComponent locationComponent) {
         EntityRef character = localPlayer.getCharacterEntity();
         EntityRef client = localPlayer.getClientEntity();
         EntityRef item = EntityRef.NULL;
@@ -119,7 +121,8 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
     private Vector3f findInfernoSpawn(Vector3f currentPos) {
         World world = worldGenerator.getWorld();
         Vector3i searchRadius = new Vector3i(32, 1, 32);
-        BlockRegion searchArea = new BlockRegion(JomlUtil.from(new Vector3i(currentPos.x(), -INFERNO_DEPTH, currentPos.z()))).expand(JomlUtil.from(searchRadius));
+        BlockRegion searchArea = new BlockRegion(new org.joml.Vector3i(new org.joml.Vector3f(currentPos.x(),
+                -INFERNO_DEPTH, currentPos.z()), RoundingMode.FLOOR)).expand(JomlUtil.from(searchRadius));
         Region worldRegion = world.getWorldData(searchArea);
 
         InfernoSurfaceHeightFacet surfaceHeightFacet = worldRegion.getFacet(InfernoSurfaceHeightFacet.class);

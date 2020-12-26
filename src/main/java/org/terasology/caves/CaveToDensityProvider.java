@@ -36,8 +36,7 @@ public class CaveToDensityProvider implements FacetProvider {
         CaveFacet caveFacet = region.getRegionFacet(CaveFacet.class);
         DensityFacet densityFacet = region.getRegionFacet(DensityFacet.class);
 
-        for (Vector3ic position : region.getRegion()) {
-            Vector3i pos = new Vector3i(position);
+        for (Vector3ic pos : region.getRegion()) {
             if (caveFacet.getWorld(pos)) {
                 densityFacet.setWorld(pos, -1f);
             }

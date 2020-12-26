@@ -48,20 +48,21 @@ public class InfernoWorldRasterizer implements WorldRasterizer {
         InfernoCeilingHeightFacet ceilingFacet = chunkRegion.getFacet(InfernoCeilingHeightFacet.class);
         LavaLevelFacet lavaLevelFacet = chunkRegion.getFacet(LavaLevelFacet.class);
 
+        Vector3i tempPos = new Vector3i();
         for (Vector3ic position : chunkRegion.getRegion()) {
             float surfaceHeight = surfaceFacet.getWorld(position.x(), position.z());
             float ceilingHeight = ceilingFacet.getWorld(position.x(), position.z());
 
             if (position.y() > ceilingHeight && position.y() < ceilingHeight + INFERNO_BORDER) {
-                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, new Vector3i()), dirt);
+                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, tempPos), dirt);
             } else if (position.y() <= ceilingHeight && position.y() > surfaceHeight) {
                 if (position.y() <= lavaLevelFacet.getLavaLevel()) {
-                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, new Vector3i()), lava);
+                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, tempPos), lava);
                 } else {
-                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, new Vector3i()), air);
+                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, tempPos), air);
                 }
             } else if (position.y() <= surfaceHeight) {
-                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, new Vector3i()), dirt);
+                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, tempPos), dirt);
             }
         }
     }

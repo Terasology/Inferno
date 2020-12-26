@@ -51,6 +51,7 @@ public class InfernalTreeRasterizer implements WorldRasterizer {
 
         for (Map.Entry<Vector3ic, InfernalTree> entry : treeFacet.getWorldEntries().entrySet()) {
             Vector3i pos = new Vector3i(entry.getKey());
+            Vector3i tempPos = new Vector3i();
             InfernalTree tree = entry.getValue();
             List<Integer> canopyLayers = tree.getCanopyLayers();
 //            // no floating trees
@@ -67,14 +68,14 @@ public class InfernalTreeRasterizer implements WorldRasterizer {
                 BlockRegion canopyLayerRegion = new BlockRegion(canopyStart).setSize(blocksFromTrunk * 2 + 1, 1, blocksFromTrunk * 2 + 1);
                 for (Vector3ic leafPos: canopyLayerRegion) {
                     if (chunk.getRegion().contains(leafPos)) {
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(leafPos, new Vector3i()), leafBlock);
+                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(leafPos, tempPos), leafBlock);
                     }
                 }
             }
             for (int height = 0; height < tree.getTrunkHeight(); height++) {
                 Vector3i newPos = new Vector3i(pos).sub(0,height,0);
                 if (chunk.getRegion().contains(newPos)) {
-                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(newPos, new Vector3i()), trunkBlock);
+                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(newPos, tempPos), trunkBlock);
                 }
             }
         }

@@ -47,6 +47,7 @@ public class LavaFallsRasterizer implements WorldRasterizer {
         InfernoSurfaceHeightFacet surfaceFacet = chunkRegion.getFacet(InfernoSurfaceHeightFacet.class);
         InfernoCeilingHeightFacet ceilingFacet = chunkRegion.getFacet(InfernoCeilingHeightFacet.class);
 
+        Vector3i tempPos = new Vector3i();
         for (Vector3ic position : chunk.getRegion()) {
             float surfaceHeight = surfaceFacet.getWorld(position.x(), position.z());
             float ceilingHeight = ceilingFacet.getWorld(position.x(), position.z());
@@ -54,7 +55,7 @@ public class LavaFallsRasterizer implements WorldRasterizer {
             if (lavaFallsFacet.getWorld(position.x(), position.z())
                     && position.y() > surfaceHeight - LAVA_WELL_DEPTH
                     && position.y() < ceilingHeight + LAVA_WELL_DEPTH) {
-                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, new Vector3i()), lava);
+                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, tempPos), lava);
             }
         }
     }

@@ -45,10 +45,11 @@ public class InfernoFloraRasterizer implements WorldRasterizer {
     @Override
     public void generateChunk(CoreChunk chunk, Region chunkRegion) {
         FloraFacet floraFacet = chunkRegion.getFacet(FloraFacet.class);
+        Vector3i tempPos = new Vector3i();
         for (Vector3ic position : chunkRegion.getRegion()) {
             if (floraFacet.getWorld(position)
-                    && chunk.getBlock(ChunkMath.calcRelativeBlockPos(new Vector3i(position).sub(0,1,0), new Vector3i())).getURI() != BlockManager.AIR_ID) {
-                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, new Vector3i()), getRandomFlora());
+                    && chunk.getBlock(ChunkMath.calcRelativeBlockPos(position.sub(0,1,0, tempPos), tempPos)).getURI() != BlockManager.AIR_ID) {
+                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, tempPos), getRandomFlora());
             }
         }
     }
