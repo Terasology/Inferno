@@ -15,14 +15,14 @@
  */
 package org.terasology.inferno.generator.facets;
 
-import org.terasology.math.Region3i;
+import org.terasology.world.block.BlockRegion;
 import org.terasology.world.generation.Border3D;
 import org.terasology.world.generation.facets.base.BaseFieldFacet2D;
 
 public class InfernoSurfaceHeightFacet extends BaseFieldFacet2D {
     int baseSurfaceHeight;
 
-    public InfernoSurfaceHeightFacet(Region3i targetRegion, Border3D border) {
+    public InfernoSurfaceHeightFacet(BlockRegion targetRegion, Border3D border) {
         super(targetRegion, border);
     }
 

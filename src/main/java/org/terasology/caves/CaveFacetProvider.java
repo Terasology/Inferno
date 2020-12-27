@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.caves;
 
+import org.joml.Vector3f;
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 import org.terasology.entitySystem.Component;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
-import org.terasology.math.geom.Vector3f;
-import org.terasology.math.geom.Vector3i;
+import org.terasology.math.JomlUtil;
 import org.terasology.nui.properties.Range;
 import org.terasology.utilities.procedural.AbstractNoise;
 import org.terasology.utilities.procedural.Noise;
@@ -52,10 +54,11 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
         float[] caveNoiseValues = caveNoise.noise(facet.getWorldRegion());
         float[] fadeCaveNoiseValues = fadeCaveNoise.noise(facet.getWorldRegion());
 
-        for (Vector3i pos : region.getRegion()) {
+        for (Vector3ic position : region.getRegion()) {
+            Vector3i pos = new Vector3i(position);
             float depth = surfaceHeightFacet.getWorld(pos.x, pos.z) - pos.y;
             if (depth > minDepth) {
-                float noiseValue = caveNoiseValues[facet.getWorldIndex(pos)];
+                float noiseValue = caveNoiseValues[facet.getWorldIndex(JomlUtil.from(pos))];
                 // fade caves out as they reach the surface or above the surface
                 float fadeForSurfaceCutoff = Math.min(1f - amountOfCavesNearSurface, Math.max(0f, 1f - (depth / sharpSurfaceCutoffDepth)));
                 // gradually decrease caves as they get closer to the surface
@@ -66,7 +69,7 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
                         Math.max(fadeForSurfaceCutoff, fadeForScale)
                                 // fade caves on a broad scale to stop them from being uniform
                                 // Amount added to the noise value: 1 = prevent all caves.  0 = allow normal perlin.  -1 = all caves
-                                + Math.max(0f, Math.abs(fadeCaveNoiseValues[facet.getWorldIndex(pos)]) + (2f * (1f - amountOfCaves)) - 1f)
+                                + Math.max(0f, Math.abs(fadeCaveNoiseValues[facet.getWorldIndex(JomlUtil.from(pos))]) + (2f * (1f - amountOfCaves)) - 1f)
                 );
 
                 facet.setWorld(pos, noiseValue > noiseLevel + noiseLevelIncrease);

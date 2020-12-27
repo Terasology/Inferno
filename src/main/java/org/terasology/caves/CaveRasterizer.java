@@ -15,6 +15,7 @@
  */
 package org.terasology.caves;
 
+import org.terasology.math.JomlUtil;
 import org.terasology.math.geom.Vector3i;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.world.block.Block;
@@ -54,7 +55,7 @@ public class CaveRasterizer implements WorldRasterizer {
         }
 
         for (Vector3i position : ChunkConstants.CHUNK_REGION) {
-            if (caveFacet.get(position)) {
+            if (caveFacet.get(JomlUtil.from(position))) {
                 chunk.setBlock(position, caveBlock);
             }
         }

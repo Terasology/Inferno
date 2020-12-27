@@ -15,15 +15,14 @@
  */
 package org.terasology.caves;
 
-import org.terasology.math.geom.Vector3i;
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 import org.terasology.world.generation.Facet;
 import org.terasology.world.generation.FacetProvider;
-import org.terasology.world.generation.FacetProviderPlugin;
 import org.terasology.world.generation.GeneratingRegion;
 import org.terasology.world.generation.Requires;
 import org.terasology.world.generation.Updates;
 import org.terasology.world.generation.facets.DensityFacet;
-import org.terasology.world.generator.plugin.RegisterPlugin;
 
 @Updates(@Facet(DensityFacet.class))
 @Requires(@Facet(CaveFacet.class))
@@ -37,7 +36,7 @@ public class CaveToDensityProvider implements FacetProvider {
         CaveFacet caveFacet = region.getRegionFacet(CaveFacet.class);
         DensityFacet densityFacet = region.getRegionFacet(DensityFacet.class);
 
-        for (Vector3i pos : region.getRegion()) {
+        for (Vector3ic pos : region.getRegion()) {
             if (caveFacet.getWorld(pos)) {
                 densityFacet.setWorld(pos, -1f);
             }
