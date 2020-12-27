@@ -36,12 +36,13 @@ import org.terasology.world.zones.ConstantLayerThickness;
 import org.terasology.world.zones.LayeredZoneRegionFunction;
 import org.terasology.world.zones.ZonePlugin;
 
-import static org.terasology.inferno.generator.InfernoWorldGenerator.INFERNO_DEPTH;
-import static org.terasology.inferno.generator.InfernoWorldGenerator.INFERNO_HEIGHT;
 import static org.terasology.world.zones.LayeredZoneRegionFunction.LayeredZoneOrdering.DEEP_UNDERGROUND;
 
 @RegisterPlugin
 public class InfernoZonePlugin extends ZonePlugin {
+    public static final int INFERNO_DEPTH = 100000;
+    public static final int INFERNO_HEIGHT = 35;
+    public static final int INFERNO_BORDER = 20000;
 
     public InfernoZonePlugin() {
         super("Inferno", new LayeredZoneRegionFunction(new ConstantLayerThickness(200_200), DEEP_UNDERGROUND));
