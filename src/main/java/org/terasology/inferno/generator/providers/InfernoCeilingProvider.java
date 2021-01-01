@@ -16,6 +16,7 @@
 package org.terasology.inferno.generator.providers;
 
 import org.joml.Vector2f;
+import org.joml.Vector2ic;
 import org.terasology.inferno.generator.facets.InfernoCeilingHeightFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.math.geom.BaseVector2i;
@@ -23,6 +24,8 @@ import org.terasology.math.geom.Rect2i;
 import org.terasology.utilities.procedural.Noise;
 import org.terasology.utilities.procedural.SimplexNoise;
 import org.terasology.utilities.procedural.SubSampledNoise;
+import org.terasology.world.block.BlockArea;
+import org.terasology.world.block.BlockAreac;
 import org.terasology.world.generation.Border3D;
 import org.terasology.world.generation.Facet;
 import org.terasology.world.generation.FacetProvider;
@@ -52,8 +55,8 @@ public class InfernoCeilingProvider implements FacetProvider {
         InfernoSurfaceHeightFacet surfaceHeightFacet = region.getRegionFacet(InfernoSurfaceHeightFacet.class);
         int baseSurfaceHeight = surfaceHeightFacet.getBaseSurfaceHeight();
 
-        Rect2i processRegion = ceilingHeightFacet.getWorldRegion();
-        for (BaseVector2i position : processRegion.contents()) {
+        BlockAreac processRegion = ceilingHeightFacet.getWorldRegion();
+        for (Vector2ic position : processRegion) {
             ceilingHeightFacet.setWorld(position, surfaceNoise.noise(position.x(), position.y()) * 20 - baseSurfaceHeight + infernoHeight);
         }
 

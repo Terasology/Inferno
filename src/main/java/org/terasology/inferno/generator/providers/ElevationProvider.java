@@ -16,6 +16,7 @@
 package org.terasology.inferno.generator.providers;
 
 import org.joml.Vector2f;
+import org.joml.Vector2ic;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.math.TeraMath;
 import org.terasology.math.geom.BaseVector2i;
@@ -24,6 +25,8 @@ import org.terasology.utilities.procedural.BrownianNoise;
 import org.terasology.utilities.procedural.Noise;
 import org.terasology.utilities.procedural.SimplexNoise;
 import org.terasology.utilities.procedural.SubSampledNoise;
+import org.terasology.world.block.BlockArea;
+import org.terasology.world.block.BlockAreac;
 import org.terasology.world.generation.Facet;
 import org.terasology.world.generation.FacetProvider;
 import org.terasology.world.generation.GeneratingRegion;
@@ -43,8 +46,8 @@ public class ElevationProvider implements FacetProvider {
     public void process(GeneratingRegion region) {
         InfernoSurfaceHeightFacet facet = region.getRegionFacet(InfernoSurfaceHeightFacet.class);
         // elevating ground to a height above the ceiling gives the appearance of walls
-        Rect2i processRegion = facet.getWorldRegion();
-        for (BaseVector2i position : processRegion.contents()) {
+        BlockAreac processRegion = facet.getWorldRegion();
+        for (Vector2ic position : processRegion) {
             float elevationHeight = redNoise.noise(position.x(), position.y()) * MAX_ELEVATION;
             elevationHeight = TeraMath.clamp(elevationHeight, 0, MAX_ELEVATION);
             facet.setWorld(position, facet.getWorld(position) + elevationHeight);

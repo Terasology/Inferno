@@ -16,12 +16,14 @@
 package org.terasology.inferno.generator.providers;
 
 import org.joml.Vector2f;
+import org.joml.Vector2ic;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.math.geom.BaseVector2i;
 import org.terasology.math.geom.Rect2i;
 import org.terasology.utilities.procedural.Noise;
 import org.terasology.utilities.procedural.SimplexNoise;
 import org.terasology.utilities.procedural.SubSampledNoise;
+import org.terasology.world.block.BlockAreac;
 import org.terasology.world.generation.Border3D;
 import org.terasology.world.generation.FacetProvider;
 import org.terasology.world.generation.GeneratingRegion;
@@ -48,8 +50,8 @@ public class InfernoSurfaceProvider implements FacetProvider {
         InfernoSurfaceHeightFacet facet = new InfernoSurfaceHeightFacet(region.getRegion(), border);
         facet.setBaseSurfaceHeight(infernoDepth);
 
-        Rect2i processRegion = facet.getWorldRegion();
-        for (BaseVector2i position: processRegion.contents()) {
+        BlockAreac processRegion = facet.getWorldRegion();
+        for (Vector2ic position: processRegion) {
             facet.setWorld(position, surfaceNoise.noise(position.x(), position.y()) * 20 - infernoDepth);
         }
         region.setRegionFacet(InfernoSurfaceHeightFacet.class, facet);

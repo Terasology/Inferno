@@ -16,6 +16,7 @@
 package org.terasology.inferno.generator.providers;
 
 import org.joml.Vector2f;
+import org.joml.Vector2ic;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 import org.slf4j.Logger;
@@ -73,7 +74,7 @@ public class InfernalTreeProvider implements FacetProvider {
         InfernoCeilingHeightFacet ceilingHeightFacet = region.getRegionFacet(InfernoCeilingHeightFacet.class);
         InfernoSurfaceHeightFacet surfaceHeightFacet = region.getRegionFacet(InfernoSurfaceHeightFacet.class);
 
-        for (BaseVector2i position : ceilingHeightFacet.getWorldRegion().contents()) {
+        for (Vector2ic position : ceilingHeightFacet.getWorldRegion()) {
             int ceilingHeight = (int) Math.floor(ceilingHeightFacet.getWorld(position));
             float surfaceHeight = surfaceHeightFacet.getWorld(position);
             if (treeFacet.getWorldRegion().contains(position.x(), ceilingHeight, position.y())
