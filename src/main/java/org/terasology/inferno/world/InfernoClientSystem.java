@@ -16,6 +16,8 @@
 package org.terasology.inferno.world;
 
 import org.joml.RoundingMode;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
 import org.terasology.audio.AudioManager;
 import org.terasology.audio.events.PlaySoundEvent;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -36,10 +38,7 @@ import org.terasology.logic.inventory.InventoryManager;
 import org.terasology.logic.inventory.InventoryUtils;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.logic.players.LocalPlayer;
-import org.terasology.math.JomlUtil;
 import org.terasology.math.geom.BaseVector2i;
-import org.terasology.math.geom.Vector3f;
-import org.terasology.math.geom.Vector3i;
 import org.terasology.registry.In;
 import org.terasology.utilities.Assets;
 import org.terasology.world.WorldProvider;
@@ -78,7 +77,7 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
                 Map.Entry<EntityRef, Vector3f> entry = teleportIt.next();
                 EntityRef character = entry.getKey();
                 Vector3f targetPos = entry.getValue();
-                character.send(new CharacterTeleportEvent(JomlUtil.from(targetPos)));
+                character.send(new CharacterTeleportEvent(targetPos));
                 teleportIt.remove();
             }
         }
@@ -100,7 +99,7 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
         }
         if (resurrect) {
             event.consume();
-            Vector3f spawnPos = findInfernoSpawn(locationComponent.getWorldPosition());
+            Vector3f spawnPos = findInfernoSpawn(locationComponent.getWorldPosition(new Vector3f()));
             if (spawnPos != null) {
                 inventoryManager.removeItem(entity, entity, item, true);
                 character.send(new RestoreFullHealthEvent(character));
@@ -122,7 +121,7 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
         World world = worldGenerator.getWorld();
         Vector3i searchRadius = new Vector3i(32, 1, 32);
         BlockRegion searchArea = new BlockRegion(new org.joml.Vector3i(new org.joml.Vector3f(currentPos.x(),
-                -INFERNO_DEPTH, currentPos.z()), RoundingMode.FLOOR)).expand(JomlUtil.from(searchRadius));
+                -INFERNO_DEPTH, currentPos.z()), RoundingMode.FLOOR)).expand(searchRadius);
         Region worldRegion = world.getWorldData(searchArea);
 
         InfernoSurfaceHeightFacet surfaceHeightFacet = worldRegion.getFacet(InfernoSurfaceHeightFacet.class);

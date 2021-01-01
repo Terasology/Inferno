@@ -15,7 +15,7 @@
  */
 package org.terasology.caves;
 
-import org.terasology.math.geom.Vector3i;
+import org.joml.Vector3ic;
 import org.terasology.world.block.BlockRegion;
 import org.terasology.world.generation.Border3D;
 import org.terasology.world.generation.facets.base.BaseBooleanFieldFacet3D;
@@ -25,7 +25,7 @@ public class CaveFacet extends BaseBooleanFieldFacet3D {
         super(targetRegion, border);
     }
 
-    public int getWorldIndex(Vector3i pos) {
-        return getWorldIndex(pos.x, pos.y, pos.z);
+    public int getWorldIndex(Vector3ic pos) {
+        return getWorldIndex(pos.x(), pos.y(), pos.z());
     }
 }

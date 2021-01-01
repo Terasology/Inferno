@@ -26,8 +26,8 @@ public class LavaLevelFacet extends BaseFacet2D {
         super(targetRegion, border);
     }
 
-    public void setLavaLevel(int lavaLavel) {
-        this.lavaLevel = lavaLavel;
+    public void setLavaLevel(int lavalLevel) {
+        this.lavaLevel = lavalLevel;
     }
 
     public int getLavaLevel() {

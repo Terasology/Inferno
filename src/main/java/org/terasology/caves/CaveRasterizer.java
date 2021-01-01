@@ -15,17 +15,15 @@
  */
 package org.terasology.caves;
 
-import org.terasology.math.JomlUtil;
-import org.terasology.math.geom.Vector3i;
+import org.joml.Vector3ic;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
 import org.terasology.world.chunks.ChunkConstants;
+import org.terasology.world.chunks.Chunks;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
-import org.terasology.world.generation.WorldRasterizerPlugin;
-import org.terasology.world.generator.plugin.RegisterPlugin;
 
 /**
  * Still need this rasterizer because just changing the density does not provide the correct effect with the default perlin generator
@@ -54,8 +52,8 @@ public class CaveRasterizer implements WorldRasterizer {
             caveBlock = blockManager.getBlock(blockUri);
         }
 
-        for (Vector3i position : ChunkConstants.CHUNK_REGION) {
-            if (caveFacet.get(JomlUtil.from(position))) {
+        for (Vector3ic position : Chunks.CHUNK_REGION) {
+            if (caveFacet.get(position)) {
                 chunk.setBlock(position, caveBlock);
             }
         }
