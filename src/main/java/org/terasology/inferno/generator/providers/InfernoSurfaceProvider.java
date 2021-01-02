@@ -50,7 +50,7 @@ public class InfernoSurfaceProvider implements FacetProvider {
         InfernoSurfaceHeightFacet facet = new InfernoSurfaceHeightFacet(region.getRegion(), border);
         facet.setBaseSurfaceHeight(infernoDepth);
 
-        BlockAreac processRegion = facet.getWorldRegion();
+        BlockAreac processRegion = facet.getWorldArea();
         for (Vector2ic position: processRegion) {
             facet.setWorld(position, surfaceNoise.noise(position.x(), position.y()) * 20 - infernoDepth);
         }

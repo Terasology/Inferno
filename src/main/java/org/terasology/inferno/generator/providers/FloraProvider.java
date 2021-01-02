@@ -46,7 +46,7 @@ public class FloraProvider implements FacetProvider {
         InfernoSurfaceHeightFacet surfaceHeightFacet = region.getRegionFacet(InfernoSurfaceHeightFacet.class);
         LavaLevelFacet lavaLevelFacet = region.getRegionFacet(LavaLevelFacet.class);
 
-        for (Vector2ic position : surfaceHeightFacet.getWorldRegion()) {
+        for (Vector2ic position : surfaceHeightFacet.getWorldArea()) {
             int surfaceHeight = (int) Math.ceil(surfaceHeightFacet.getWorld(position));
 
             float n = noise.noise(position.x(), position.y());

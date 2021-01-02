@@ -54,7 +54,7 @@ public class LavaFallsProvider implements FacetProvider {
         Border3D border = region.getBorderForFacet(LavaFallsFacet.class).extendBy(4, 4, 4);
         LavaFallsFacet facet = new LavaFallsFacet(region.getRegion(), border);
 
-        BlockAreac processRegion = facet.getWorldRegion();
+        BlockAreac processRegion = facet.getWorldArea();
         for (Vector2ic position : processRegion) {
             if (spawnNoise.noise(position.x(), position.y()) > 0.9995) {
                 float noise1 = sizeNoise1.noise(position.x(), position.y());
@@ -62,16 +62,16 @@ public class LavaFallsProvider implements FacetProvider {
                 float noise3 = sizeNoise3.noise(position.x(), position.y());
                 float noise4 = sizeNoise4.noise(position.x(), position.y());
 
-                if (noise1 > 0 && facet.getWorldRegion().contains(position.x(), position.y())) {
+                if (noise1 > 0 && facet.getWorldArea().contains(position.x(), position.y())) {
                     facet.setWorld(position.x(), position.y(), true);
                 }
-                if (noise2 > 0 && facet.getWorldRegion().contains(position.x() + 1, position.y())) {
+                if (noise2 > 0 && facet.getWorldArea().contains(position.x() + 1, position.y())) {
                     facet.setWorld(position.x() + 1, position.y(), true);
                 }
-                if (noise3 > 0 && facet.getWorldRegion().contains(position.x() + 1, position.y() + 1)) {
+                if (noise3 > 0 && facet.getWorldArea().contains(position.x() + 1, position.y() + 1)) {
                     facet.setWorld(position.x() + 1, position.y() + 1, true);
                 }
-                if (noise4 > 0 && facet.getWorldRegion().contains(position.x(), position.y() + 1)) {
+                if (noise4 > 0 && facet.getWorldArea().contains(position.x(), position.y() + 1)) {
                     facet.setWorld(position.x(), position.y() + 1, true);
                 }
 //                //float spawnColumn = random.nextFloat(0, 1);

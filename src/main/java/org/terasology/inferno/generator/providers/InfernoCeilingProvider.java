@@ -55,7 +55,7 @@ public class InfernoCeilingProvider implements FacetProvider {
         InfernoSurfaceHeightFacet surfaceHeightFacet = region.getRegionFacet(InfernoSurfaceHeightFacet.class);
         int baseSurfaceHeight = surfaceHeightFacet.getBaseSurfaceHeight();
 
-        BlockAreac processRegion = ceilingHeightFacet.getWorldRegion();
+        BlockAreac processRegion = ceilingHeightFacet.getWorldArea();
         for (Vector2ic position : processRegion) {
             ceilingHeightFacet.setWorld(position, surfaceNoise.noise(position.x(), position.y()) * 20 - baseSurfaceHeight + infernoHeight);
         }

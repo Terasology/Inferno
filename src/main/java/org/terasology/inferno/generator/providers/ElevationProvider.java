@@ -46,7 +46,7 @@ public class ElevationProvider implements FacetProvider {
     public void process(GeneratingRegion region) {
         InfernoSurfaceHeightFacet facet = region.getRegionFacet(InfernoSurfaceHeightFacet.class);
         // elevating ground to a height above the ceiling gives the appearance of walls
-        BlockAreac processRegion = facet.getWorldRegion();
+        BlockAreac processRegion = facet.getWorldArea();
         for (Vector2ic position : processRegion) {
             float elevationHeight = redNoise.noise(position.x(), position.y()) * MAX_ELEVATION;
             elevationHeight = TeraMath.clamp(elevationHeight, 0, MAX_ELEVATION);

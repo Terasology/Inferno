@@ -129,7 +129,7 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
         InfernoCeilingHeightFacet ceilingHeightFacet = worldRegion.getFacet(InfernoCeilingHeightFacet.class);
         LavaLevelFacet lavaLevelFacet = worldRegion.getFacet(LavaLevelFacet.class);
         if (surfaceHeightFacet != null && ceilingHeightFacet != null) {
-            for (Vector2ic pos : surfaceHeightFacet.getWorldRegion()) {
+            for (Vector2ic pos : surfaceHeightFacet.getWorldArea()) {
                 float surfaceHeight = surfaceHeightFacet.getWorld(pos);
                 if (surfaceHeight < ceilingHeightFacet.getWorld(pos) - 1 && surfaceHeight > lavaLevelFacet.getLavaLevel()) {
                     return new Vector3f(pos.x(), surfaceHeight + 1, pos.y());

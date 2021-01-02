@@ -72,7 +72,7 @@ public class LavaHutProvider implements FacetProvider {
         LavaHutFacet lavaHutFacet = new LavaHutFacet(region.getRegion(), border);
 
         int lavaLevel = lavaLevelFacet.getLavaLevel();
-        for (Vector2ic position : surfaceHeightFacet.getWorldRegion()) {
+        for (Vector2ic position : surfaceHeightFacet.getWorldArea()) {
             float ceilingHeight = ceilingHeightFacet.getWorld(position);
             float hutHeight = lavaLevel + TeraMath.clamp(Math.abs(heightNoise.noise(position.x(), position.y()) * MAX_HUT_HEIGHT), MIN_HUT_HEIGHT, MAX_HUT_HEIGHT);
             if (isOverLava(surfaceHeightFacet, position.x() + MIN_LAVA_PADDING, position.y(), lavaLevel)
@@ -103,7 +103,7 @@ public class LavaHutProvider implements FacetProvider {
     }
 
     private boolean isOverLava(InfernoSurfaceHeightFacet surfaceHeightFacet, int x, int y, int lavaLevel) {
-        return surfaceHeightFacet.getWorldRegion().contains(x, y)
+        return surfaceHeightFacet.getWorldArea().contains(x, y)
                 && surfaceHeightFacet.getWorld(x, y) < lavaLevel;
     }
 }

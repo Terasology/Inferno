@@ -74,7 +74,7 @@ public class InfernalTreeProvider implements FacetProvider {
         InfernoCeilingHeightFacet ceilingHeightFacet = region.getRegionFacet(InfernoCeilingHeightFacet.class);
         InfernoSurfaceHeightFacet surfaceHeightFacet = region.getRegionFacet(InfernoSurfaceHeightFacet.class);
 
-        for (Vector2ic position : ceilingHeightFacet.getWorldRegion()) {
+        for (Vector2ic position : ceilingHeightFacet.getWorldArea()) {
             int ceilingHeight = (int) Math.floor(ceilingHeightFacet.getWorld(position));
             float surfaceHeight = surfaceHeightFacet.getWorld(position);
             if (treeFacet.getWorldRegion().contains(position.x(), ceilingHeight, position.y())
