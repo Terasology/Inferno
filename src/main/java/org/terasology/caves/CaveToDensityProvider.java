@@ -15,7 +15,6 @@
  */
 package org.terasology.caves;
 
-import org.joml.Vector3i;
 import org.joml.Vector3ic;
 import org.terasology.world.generation.Facet;
 import org.terasology.world.generation.FacetProvider;
