@@ -15,6 +15,7 @@
  */
 package org.terasology.inferno.generator.providers;
 
+import org.joml.Vector2ic;
 import org.terasology.inferno.generator.facets.LavaFallsFacet;
 import org.terasology.math.geom.BaseVector2i;
 import org.terasology.math.geom.Rect2i;
@@ -22,6 +23,7 @@ import org.terasology.utilities.procedural.Noise;
 import org.terasology.utilities.procedural.WhiteNoise;
 import org.terasology.utilities.random.FastRandom;
 import org.terasology.utilities.random.Random;
+import org.terasology.world.block.BlockAreac;
 import org.terasology.world.generation.Border3D;
 import org.terasology.world.generation.FacetProvider;
 import org.terasology.world.generation.GeneratingRegion;
@@ -52,24 +54,24 @@ public class LavaFallsProvider implements FacetProvider {
         Border3D border = region.getBorderForFacet(LavaFallsFacet.class).extendBy(4, 4, 4);
         LavaFallsFacet facet = new LavaFallsFacet(region.getRegion(), border);
 
-        Rect2i processRegion = facet.getWorldRegion();
-        for (BaseVector2i position : processRegion.contents()) {
+        BlockAreac processRegion = facet.getWorldArea();
+        for (Vector2ic position : processRegion) {
             if (spawnNoise.noise(position.x(), position.y()) > 0.9995) {
                 float noise1 = sizeNoise1.noise(position.x(), position.y());
                 float noise2 = sizeNoise2.noise(position.x(), position.y());
                 float noise3 = sizeNoise3.noise(position.x(), position.y());
                 float noise4 = sizeNoise4.noise(position.x(), position.y());
 
-                if (noise1 > 0 && facet.getWorldRegion().contains(position.x(), position.y())) {
+                if (noise1 > 0 && facet.getWorldArea().contains(position.x(), position.y())) {
                     facet.setWorld(position.x(), position.y(), true);
                 }
-                if (noise2 > 0 && facet.getWorldRegion().contains(position.x() + 1, position.y())) {
+                if (noise2 > 0 && facet.getWorldArea().contains(position.x() + 1, position.y())) {
                     facet.setWorld(position.x() + 1, position.y(), true);
                 }
-                if (noise3 > 0 && facet.getWorldRegion().contains(position.x() + 1, position.y() + 1)) {
+                if (noise3 > 0 && facet.getWorldArea().contains(position.x() + 1, position.y() + 1)) {
                     facet.setWorld(position.x() + 1, position.y() + 1, true);
                 }
-                if (noise4 > 0 && facet.getWorldRegion().contains(position.x(), position.y() + 1)) {
+                if (noise4 > 0 && facet.getWorldArea().contains(position.x(), position.y() + 1)) {
                     facet.setWorld(position.x(), position.y() + 1, true);
                 }
 //                //float spawnColumn = random.nextFloat(0, 1);

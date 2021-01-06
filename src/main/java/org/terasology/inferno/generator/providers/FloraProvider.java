@@ -15,6 +15,7 @@
  */
 package org.terasology.inferno.generator.providers;
 
+import org.joml.Vector2ic;
 import org.terasology.inferno.generator.facets.FloraFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
@@ -45,7 +46,7 @@ public class FloraProvider implements FacetProvider {
         InfernoSurfaceHeightFacet surfaceHeightFacet = region.getRegionFacet(InfernoSurfaceHeightFacet.class);
         LavaLevelFacet lavaLevelFacet = region.getRegionFacet(LavaLevelFacet.class);
 
-        for (BaseVector2i position : surfaceHeightFacet.getWorldRegion().contents()) {
+        for (Vector2ic position : surfaceHeightFacet.getWorldArea()) {
             int surfaceHeight = (int) Math.ceil(surfaceHeightFacet.getWorld(position));
 
             float n = noise.noise(position.x(), position.y());
