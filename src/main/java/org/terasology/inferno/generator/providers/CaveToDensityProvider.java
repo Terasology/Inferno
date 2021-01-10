@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.caves;
+package org.terasology.inferno.generator.providers;
 
 import org.joml.Vector3ic;
+import org.terasology.inferno.generator.facets.CaveFacet;
 import org.terasology.world.generation.Facet;
 import org.terasology.world.generation.FacetProvider;
 import org.terasology.world.generation.GeneratingRegion;

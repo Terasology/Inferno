@@ -1,11 +1,12 @@
 // Copyright 2020 The Terasology Foundation
 // SPDX-License-Identifier: Apache-2.0
-package org.terasology.caves;
+package org.terasology.inferno.generator.providers;
 
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 import org.terasology.entitySystem.Component;
+import org.terasology.inferno.generator.facets.CaveFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.nui.properties.Range;
 import org.terasology.utilities.procedural.AbstractNoise;
