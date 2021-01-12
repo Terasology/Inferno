@@ -15,9 +15,8 @@
  */
 package org.terasology.inferno.generator;
 
-import org.terasology.caves.CaveFacetProvider;
-import org.terasology.caves.CaveRasterizer;
-import org.terasology.caves.CaveToDensityProvider;
+import org.terasology.inferno.generator.providers.CaveFacetProvider;
+import org.terasology.inferno.generator.providers.CaveToDensityProvider;
 import org.terasology.inferno.generator.providers.ElevationProvider;
 import org.terasology.inferno.generator.providers.FloraProvider;
 import org.terasology.inferno.generator.providers.InfernalTreeProvider;
@@ -26,6 +25,7 @@ import org.terasology.inferno.generator.providers.InfernoSurfaceProvider;
 import org.terasology.inferno.generator.providers.LavaFallsProvider;
 import org.terasology.inferno.generator.providers.LavaHutProvider;
 import org.terasology.inferno.generator.providers.LavaLevelProvider;
+import org.terasology.inferno.generator.rasterizers.CaveRasterizer;
 import org.terasology.inferno.generator.rasterizers.InfernalTreeRasterizer;
 import org.terasology.inferno.generator.rasterizers.InfernoFloraRasterizer;
 import org.terasology.inferno.generator.rasterizers.InfernoWorldRasterizer;

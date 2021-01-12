@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.caves;
+package org.terasology.inferno.generator.rasterizers;
 
 import org.joml.Vector3ic;
+import org.terasology.inferno.generator.facets.CaveFacet;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;

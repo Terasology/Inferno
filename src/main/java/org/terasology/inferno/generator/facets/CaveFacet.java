@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.caves;
+package org.terasology.inferno.generator.facets;
 
 import org.joml.Vector3ic;
 import org.terasology.world.block.BlockRegion;
