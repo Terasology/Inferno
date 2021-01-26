@@ -24,7 +24,6 @@ import org.terasology.inferno.generator.facets.LavaLevelFacet;
 import org.terasology.inferno.generator.structures.LavaHut;
 import org.terasology.math.Direction;
 import org.terasology.math.TeraMath;
-import org.terasology.math.geom.BaseVector2i;
 import org.terasology.utilities.procedural.Noise;
 import org.terasology.utilities.procedural.WhiteNoise;
 import org.terasology.world.generation.Border3D;

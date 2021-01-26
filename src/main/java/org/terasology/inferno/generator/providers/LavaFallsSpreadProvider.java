@@ -15,19 +15,12 @@
  */
 package org.terasology.inferno.generator.providers;
 
-import org.terasology.inferno.generator.facets.LavaFallsFacet;
-import org.terasology.math.geom.BaseVector2i;
-import org.terasology.math.geom.Rect2i;
 import org.terasology.utilities.procedural.Noise;
 import org.terasology.utilities.procedural.WhiteNoise;
 import org.terasology.utilities.random.FastRandom;
 import org.terasology.utilities.random.Random;
-import org.terasology.world.generation.Border3D;
-import org.terasology.world.generation.Facet;
-import org.terasology.world.generation.FacetBorder;
 import org.terasology.world.generation.FacetProvider;
 import org.terasology.world.generation.GeneratingRegion;
-import org.terasology.world.generation.Requires;
 
 public class LavaFallsSpreadProvider implements FacetProvider {
     private Noise noise;

@@ -20,10 +20,10 @@ import org.joml.Vector3ic;
 import org.terasology.inferno.generator.facets.InfernoCeilingHeightFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
-import org.terasology.math.ChunkMath;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
+import org.terasology.world.chunks.Chunks;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
@@ -54,15 +54,15 @@ public class InfernoWorldRasterizer implements WorldRasterizer {
             float ceilingHeight = ceilingFacet.getWorld(position.x(), position.z());
 
             if (position.y() > ceilingHeight && position.y() < ceilingHeight + INFERNO_BORDER) {
-                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, tempPos), dirt);
+                chunk.setBlock(Chunks.toRelative(position, tempPos), dirt);
             } else if (position.y() <= ceilingHeight && position.y() > surfaceHeight) {
                 if (position.y() <= lavaLevelFacet.getLavaLevel()) {
-                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, tempPos), lava);
+                    chunk.setBlock(Chunks.toRelative(position, tempPos), lava);
                 } else {
-                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, tempPos), air);
+                    chunk.setBlock(Chunks.toRelative(position, tempPos), air);
                 }
             } else if (position.y() <= surfaceHeight) {
-                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, tempPos), dirt);
+                chunk.setBlock(Chunks.toRelative(position, tempPos), dirt);
             }
         }
     }

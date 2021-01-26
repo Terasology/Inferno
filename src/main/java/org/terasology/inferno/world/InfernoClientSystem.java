@@ -39,7 +39,6 @@ import org.terasology.logic.inventory.InventoryManager;
 import org.terasology.logic.inventory.InventoryUtils;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.logic.players.LocalPlayer;
-import org.terasology.math.geom.BaseVector2i;
 import org.terasology.registry.In;
 import org.terasology.utilities.Assets;
 import org.terasology.world.WorldProvider;

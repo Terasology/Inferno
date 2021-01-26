@@ -18,12 +18,12 @@ package org.terasology.inferno.generator.rasterizers;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 import org.terasology.inferno.generator.facets.FloraFacet;
-import org.terasology.math.ChunkMath;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.utilities.random.FastRandom;
 import org.terasology.utilities.random.Random;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
+import org.terasology.world.chunks.Chunks;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
@@ -48,8 +48,8 @@ public class InfernoFloraRasterizer implements WorldRasterizer {
         Vector3i tempPos = new Vector3i();
         for (Vector3ic position : chunkRegion.getRegion()) {
             if (floraFacet.getWorld(position)
-                    && chunk.getBlock(ChunkMath.calcRelativeBlockPos(position.sub(0,1,0, tempPos), tempPos)).getURI() != BlockManager.AIR_ID) {
-                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, tempPos), getRandomFlora());
+                    && chunk.getBlock(Chunks.toRelative(position.sub(0, 1, 0, tempPos), tempPos)).getURI() != BlockManager.AIR_ID) {
+                chunk.setBlock(Chunks.toRelative(position, tempPos), getRandomFlora());
             }
         }
     }
