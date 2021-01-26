@@ -20,7 +20,6 @@ import org.joml.Vector3ic;
 import org.terasology.inferno.generator.facets.LavaHutFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
 import org.terasology.inferno.generator.structures.LavaHut;
-import org.terasology.math.ChunkMath;
 import org.terasology.math.JomlUtil;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.utilities.random.FastRandom;
@@ -28,6 +27,7 @@ import org.terasology.utilities.random.Random;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
 import org.terasology.world.block.BlockRegion;
+import org.terasology.world.chunks.Chunks;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
@@ -85,7 +85,7 @@ public class LavaHutRasterizer implements WorldRasterizer {
                 for (Vector3ic blockPos : platformRegion) {
                     float platformBlockProb = random.nextFloat();
                     if (chunkRegion.getRegion().contains(blockPos) && !backPlatformRegion.contains(blockPos) && platformBlockProb <= PLATFORM_BLOCK_PROB) {
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(blockPos, tempPos), topBlock);
+                        chunk.setBlock(Chunks.toRelative(blockPos, tempPos), topBlock);
                     }
                 }
 
@@ -107,7 +107,7 @@ public class LavaHutRasterizer implements WorldRasterizer {
                     if (chunkRegion.getRegion().contains(blockPos) && !topInnerWallRegion.contains(blockPos) && random.nextFloat() <= LAVA_SPAWN_PROB) {
                         Vector3i lavaPos = new Vector3i(blockPos);
                         while (chunk.getRegion().contains(lavaPos) && lavaPos.y() >= lavaLevelFacet.getLavaLevel()) {
-                            chunk.setBlock(ChunkMath.calcRelativeBlockPos(lavaPos, new Vector3i()), lava);
+                            chunk.setBlock(Chunks.toRelative(lavaPos, new Vector3i()), lava);
                             lavaPos.sub(0,1,0);
                         }
                     }
@@ -127,10 +127,10 @@ public class LavaHutRasterizer implements WorldRasterizer {
                 Block stiltBlock;
                 while (chunkRegion.getRegion().contains(stiltsCenter) && stiltsCenter.y() >= lavaLevelFacet.getLavaLevel()) {
                     if (stiltsCenter.y() >= position.y()) {
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(stiltsCenter.add(toInnerCenter, 0, toInnerCenter, tempPos), tempPos), topBlock);
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(stiltsCenter.add(-toInnerCenter, 0, toInnerCenter, tempPos), tempPos), topBlock);
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(stiltsCenter.add(toInnerCenter, 0, -toInnerCenter, tempPos), tempPos), topBlock);
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(stiltsCenter.add(-toInnerCenter, 0, -toInnerCenter, tempPos), tempPos), topBlock);
+                        chunk.setBlock(Chunks.toRelative(stiltsCenter.add(toInnerCenter, 0, toInnerCenter, tempPos), tempPos), topBlock);
+                        chunk.setBlock(Chunks.toRelative(stiltsCenter.add(-toInnerCenter, 0, toInnerCenter, tempPos), tempPos), topBlock);
+                        chunk.setBlock(Chunks.toRelative(stiltsCenter.add(toInnerCenter, 0, -toInnerCenter, tempPos), tempPos), topBlock);
+                        chunk.setBlock(Chunks.toRelative(stiltsCenter.add(-toInnerCenter, 0, -toInnerCenter, tempPos), tempPos), topBlock);
                     } else {
                         placeWithProbability(chunk, stiltsCenter.add(toInnerCenter, 0, toInnerCenter, tempPos), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
                         placeWithProbability(chunk, stiltsCenter.add(-toInnerCenter, 0, toInnerCenter, tempPos), lowerBlockCracked, lowerBlock, LOWER_CRACKED_BLOCK_PROB);
@@ -154,9 +154,9 @@ public class LavaHutRasterizer implements WorldRasterizer {
 
     private void placeWithProbability(CoreChunk chunk, Vector3i pos, Block block1, Block block2, float prob) {
         if (random.nextFloat() <= prob) {
-            chunk.setBlock(ChunkMath.calcRelativeBlockPos(pos, new Vector3i()), block1);
+            chunk.setBlock(Chunks.toRelative(pos, new Vector3i()), block1);
         } else {
-            chunk.setBlock(ChunkMath.calcRelativeBlockPos(pos, new Vector3i()), block2);
+            chunk.setBlock(Chunks.toRelative(pos, new Vector3i()), block2);
         }
     }
 }

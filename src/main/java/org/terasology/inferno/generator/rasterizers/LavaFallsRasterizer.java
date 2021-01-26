@@ -20,12 +20,12 @@ import org.joml.Vector3ic;
 import org.terasology.inferno.generator.facets.InfernoCeilingHeightFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.inferno.generator.facets.LavaFallsFacet;
-import org.terasology.math.ChunkMath;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.utilities.random.FastRandom;
 import org.terasology.utilities.random.Random;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
+import org.terasology.world.chunks.Chunks;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
@@ -55,7 +55,7 @@ public class LavaFallsRasterizer implements WorldRasterizer {
             if (lavaFallsFacet.getWorld(position.x(), position.z())
                     && position.y() > surfaceHeight - LAVA_WELL_DEPTH
                     && position.y() < ceilingHeight + LAVA_WELL_DEPTH) {
-                chunk.setBlock(ChunkMath.calcRelativeBlockPos(position, tempPos), lava);
+                chunk.setBlock(Chunks.toRelative(position, tempPos), lava);
             }
         }
     }

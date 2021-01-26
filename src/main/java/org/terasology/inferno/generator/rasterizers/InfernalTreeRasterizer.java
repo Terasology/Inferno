@@ -21,11 +21,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.inferno.generator.facets.InfernalTreeFacet;
 import org.terasology.inferno.generator.structures.InfernalTree;
-import org.terasology.math.ChunkMath;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
 import org.terasology.world.block.BlockRegion;
+import org.terasology.world.chunks.Chunks;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
@@ -34,10 +34,10 @@ import java.util.List;
 import java.util.Map;
 
 public class InfernalTreeRasterizer implements WorldRasterizer {
-    private Block trunkBlock;
-    private Block leafBlock;
     private Logger logger = LoggerFactory.getLogger(InfernalTreeRasterizer.class);
 
+    private Block trunkBlock;
+    private Block leafBlock;
 
     @Override
     public void initialize() {
@@ -68,14 +68,14 @@ public class InfernalTreeRasterizer implements WorldRasterizer {
                 BlockRegion canopyLayerRegion = new BlockRegion(canopyStart).setSize(blocksFromTrunk * 2 + 1, 1, blocksFromTrunk * 2 + 1);
                 for (Vector3ic leafPos: canopyLayerRegion) {
                     if (chunk.getRegion().contains(leafPos)) {
-                        chunk.setBlock(ChunkMath.calcRelativeBlockPos(leafPos, tempPos), leafBlock);
+                        chunk.setBlock(Chunks.toRelative(leafPos, tempPos), leafBlock);
                     }
                 }
             }
             for (int height = 0; height < tree.getTrunkHeight(); height++) {
                 Vector3i newPos = new Vector3i(pos).sub(0,height,0);
                 if (chunk.getRegion().contains(newPos)) {
-                    chunk.setBlock(ChunkMath.calcRelativeBlockPos(newPos, tempPos), trunkBlock);
+                    chunk.setBlock(Chunks.toRelative(newPos, tempPos), trunkBlock);
                 }
             }
         }
