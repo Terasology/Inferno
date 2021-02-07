@@ -20,7 +20,6 @@ import org.joml.Vector3ic;
 import org.terasology.inferno.generator.facets.LavaHutFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
 import org.terasology.inferno.generator.structures.LavaHut;
-import org.terasology.math.JomlUtil;
 import org.terasology.registry.CoreRegistry;
 import org.terasology.utilities.random.FastRandom;
 import org.terasology.utilities.random.Random;
@@ -68,7 +67,7 @@ public class LavaHutRasterizer implements WorldRasterizer {
             Vector3i position = new Vector3i(entry.getKey());
             LavaHut lavaHut = entry.getValue();
             if (lavaHut != null && chunk.getRegion().contains(position)) {
-                Vector3i dirVector = JomlUtil.from(lavaHut.getHutDirection().getVector3i());
+                Vector3ic dirVector = lavaHut.getHutDirection().asVector3i();
                 int length = lavaHut.getLength();
                 int height = lavaHut.getHeight();
                 // since length is odd, fromCenter gets rounded down
