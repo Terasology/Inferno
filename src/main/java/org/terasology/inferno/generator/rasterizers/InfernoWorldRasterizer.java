@@ -17,16 +17,16 @@ package org.terasology.inferno.generator.rasterizers;
 
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
+import org.terasology.engine.registry.CoreRegistry;
+import org.terasology.engine.world.block.Block;
+import org.terasology.engine.world.block.BlockManager;
+import org.terasology.engine.world.chunks.Chunks;
+import org.terasology.engine.world.chunks.CoreChunk;
+import org.terasology.engine.world.generation.Region;
+import org.terasology.engine.world.generation.WorldRasterizer;
 import org.terasology.inferno.generator.facets.InfernoCeilingHeightFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
-import org.terasology.registry.CoreRegistry;
-import org.terasology.world.block.Block;
-import org.terasology.world.block.BlockManager;
-import org.terasology.world.chunks.Chunks;
-import org.terasology.world.chunks.CoreChunk;
-import org.terasology.world.generation.Region;
-import org.terasology.world.generation.WorldRasterizer;
 
 import static org.terasology.inferno.generator.InfernoZonePlugin.INFERNO_BORDER;
 

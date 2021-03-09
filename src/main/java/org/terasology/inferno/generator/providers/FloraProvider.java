@@ -16,17 +16,17 @@
 package org.terasology.inferno.generator.providers;
 
 import org.joml.Vector2ic;
+import org.terasology.engine.utilities.procedural.Noise;
+import org.terasology.engine.utilities.procedural.WhiteNoise;
+import org.terasology.engine.world.generation.Border3D;
+import org.terasology.engine.world.generation.Facet;
+import org.terasology.engine.world.generation.FacetProvider;
+import org.terasology.engine.world.generation.GeneratingRegion;
+import org.terasology.engine.world.generation.Produces;
+import org.terasology.engine.world.generation.Requires;
 import org.terasology.inferno.generator.facets.FloraFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
-import org.terasology.utilities.procedural.Noise;
-import org.terasology.utilities.procedural.WhiteNoise;
-import org.terasology.world.generation.Border3D;
-import org.terasology.world.generation.Facet;
-import org.terasology.world.generation.FacetProvider;
-import org.terasology.world.generation.GeneratingRegion;
-import org.terasology.world.generation.Produces;
-import org.terasology.world.generation.Requires;
 
 @Produces(FloraFacet.class)
 @Requires( {@Facet(LavaLevelFacet.class), @Facet(InfernoSurfaceHeightFacet.class)})

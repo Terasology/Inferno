@@ -17,17 +17,17 @@ package org.terasology.inferno.generator.providers;
 
 import org.joml.Vector2f;
 import org.joml.Vector2ic;
+import org.terasology.engine.utilities.procedural.BrownianNoise;
+import org.terasology.engine.utilities.procedural.Noise;
+import org.terasology.engine.utilities.procedural.SimplexNoise;
+import org.terasology.engine.utilities.procedural.SubSampledNoise;
+import org.terasology.engine.world.block.BlockAreac;
+import org.terasology.engine.world.generation.Facet;
+import org.terasology.engine.world.generation.FacetProvider;
+import org.terasology.engine.world.generation.GeneratingRegion;
+import org.terasology.engine.world.generation.Updates;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.math.TeraMath;
-import org.terasology.utilities.procedural.BrownianNoise;
-import org.terasology.utilities.procedural.Noise;
-import org.terasology.utilities.procedural.SimplexNoise;
-import org.terasology.utilities.procedural.SubSampledNoise;
-import org.terasology.world.block.BlockAreac;
-import org.terasology.world.generation.Facet;
-import org.terasology.world.generation.FacetProvider;
-import org.terasology.world.generation.GeneratingRegion;
-import org.terasology.world.generation.Updates;
 
 @Updates(@Facet(InfernoSurfaceHeightFacet.class))
 public class ElevationProvider implements FacetProvider {

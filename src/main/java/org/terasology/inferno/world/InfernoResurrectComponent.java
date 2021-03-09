@@ -15,7 +15,7 @@
  */
 package org.terasology.inferno.world;
 
-import org.terasology.entitySystem.Component;
+import org.terasology.engine.entitySystem.Component;
 
 public class InfernoResurrectComponent implements Component {
 }

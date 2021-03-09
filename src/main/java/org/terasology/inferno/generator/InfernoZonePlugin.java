@@ -15,6 +15,10 @@
  */
 package org.terasology.inferno.generator;
 
+import org.terasology.engine.world.generator.plugin.RegisterPlugin;
+import org.terasology.engine.world.zones.ConstantLayerThickness;
+import org.terasology.engine.world.zones.LayeredZoneRegionFunction;
+import org.terasology.engine.world.zones.ZonePlugin;
 import org.terasology.inferno.generator.providers.CaveFacetProvider;
 import org.terasology.inferno.generator.providers.CaveToDensityProvider;
 import org.terasology.inferno.generator.providers.ElevationProvider;
@@ -31,12 +35,8 @@ import org.terasology.inferno.generator.rasterizers.InfernoFloraRasterizer;
 import org.terasology.inferno.generator.rasterizers.InfernoWorldRasterizer;
 import org.terasology.inferno.generator.rasterizers.LavaFallsRasterizer;
 import org.terasology.inferno.generator.rasterizers.LavaHutRasterizer;
-import org.terasology.world.generator.plugin.RegisterPlugin;
-import org.terasology.world.zones.ConstantLayerThickness;
-import org.terasology.world.zones.LayeredZoneRegionFunction;
-import org.terasology.world.zones.ZonePlugin;
 
-import static org.terasology.world.zones.LayeredZoneRegionFunction.LayeredZoneOrdering.DEEP_UNDERGROUND;
+import static org.terasology.engine.world.zones.LayeredZoneRegionFunction.LayeredZoneOrdering.DEEP_UNDERGROUND;
 
 @RegisterPlugin
 public class InfernoZonePlugin extends ZonePlugin {

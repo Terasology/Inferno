@@ -15,9 +15,9 @@
  */
 package org.terasology.inferno.generator.facets;
 
-import org.terasology.world.block.BlockRegion;
-import org.terasology.world.generation.Border3D;
-import org.terasology.world.generation.facets.base.BaseBooleanFieldFacet2D;
+import org.terasology.engine.world.block.BlockRegion;
+import org.terasology.engine.world.generation.Border3D;
+import org.terasology.engine.world.generation.facets.base.BaseBooleanFieldFacet2D;
 
 public class LavaFallsFacet extends BaseBooleanFieldFacet2D {
     public LavaFallsFacet(BlockRegion targetRegion, Border3D border) {

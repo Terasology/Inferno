@@ -3,14 +3,14 @@
 package org.terasology.inferno.generator.rasterizers;
 
 import org.joml.Vector3ic;
+import org.terasology.engine.registry.CoreRegistry;
+import org.terasology.engine.world.block.Block;
+import org.terasology.engine.world.block.BlockManager;
+import org.terasology.engine.world.chunks.Chunks;
+import org.terasology.engine.world.chunks.CoreChunk;
+import org.terasology.engine.world.generation.Region;
+import org.terasology.engine.world.generation.WorldRasterizer;
 import org.terasology.inferno.generator.facets.CaveFacet;
-import org.terasology.registry.CoreRegistry;
-import org.terasology.world.block.Block;
-import org.terasology.world.block.BlockManager;
-import org.terasology.world.chunks.Chunks;
-import org.terasology.world.chunks.CoreChunk;
-import org.terasology.world.generation.Region;
-import org.terasology.world.generation.WorldRasterizer;
 
 /**
  * Still need this rasterizer because just changing the density does not provide the correct effect with the default perlin generator

@@ -15,12 +15,12 @@
  */
 package org.terasology.inferno.generator.providers;
 
-import org.terasology.utilities.procedural.Noise;
-import org.terasology.utilities.procedural.WhiteNoise;
-import org.terasology.utilities.random.FastRandom;
-import org.terasology.utilities.random.Random;
-import org.terasology.world.generation.FacetProvider;
-import org.terasology.world.generation.GeneratingRegion;
+import org.terasology.engine.utilities.procedural.Noise;
+import org.terasology.engine.utilities.procedural.WhiteNoise;
+import org.terasology.engine.utilities.random.FastRandom;
+import org.terasology.engine.utilities.random.Random;
+import org.terasology.engine.world.generation.FacetProvider;
+import org.terasology.engine.world.generation.GeneratingRegion;
 
 public class LavaFallsSpreadProvider implements FacetProvider {
     private Noise noise;

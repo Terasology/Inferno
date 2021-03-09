@@ -16,13 +16,13 @@
 package org.terasology.inferno.generator.providers;
 
 import org.joml.Vector3ic;
+import org.terasology.engine.world.generation.Facet;
+import org.terasology.engine.world.generation.FacetProvider;
+import org.terasology.engine.world.generation.GeneratingRegion;
+import org.terasology.engine.world.generation.Requires;
+import org.terasology.engine.world.generation.Updates;
+import org.terasology.engine.world.generation.facets.DensityFacet;
 import org.terasology.inferno.generator.facets.CaveFacet;
-import org.terasology.world.generation.Facet;
-import org.terasology.world.generation.FacetProvider;
-import org.terasology.world.generation.GeneratingRegion;
-import org.terasology.world.generation.Requires;
-import org.terasology.world.generation.Updates;
-import org.terasology.world.generation.facets.DensityFacet;
 
 @Updates(@Facet(DensityFacet.class))
 @Requires(@Facet(CaveFacet.class))

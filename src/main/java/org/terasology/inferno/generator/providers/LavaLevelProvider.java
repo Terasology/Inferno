@@ -15,15 +15,14 @@
  */
 package org.terasology.inferno.generator.providers;
 
+import org.terasology.engine.world.generation.Border3D;
+import org.terasology.engine.world.generation.Facet;
+import org.terasology.engine.world.generation.FacetProvider;
+import org.terasology.engine.world.generation.GeneratingRegion;
+import org.terasology.engine.world.generation.Produces;
+import org.terasology.engine.world.generation.Requires;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
-import org.terasology.world.generation.Border3D;
-import org.terasology.world.generation.Facet;
-import org.terasology.world.generation.FacetProvider;
-import org.terasology.world.generation.GeneratingRegion;
-import org.terasology.world.generation.Produces;
-import org.terasology.world.generation.Requires;
-import org.terasology.world.generation.facets.SeaLevelFacet;
 
 @Produces(LavaLevelFacet.class)
 @Requires(@Facet(InfernoSurfaceHeightFacet.class))

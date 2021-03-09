@@ -15,20 +15,17 @@
  */
 package org.terasology.inferno.world;
 
-import org.terasology.entitySystem.entity.EntityManager;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
-import org.terasology.entitySystem.systems.RegisterSystem;
-import org.terasology.logic.chat.ChatMessageEvent;
-import org.terasology.logic.inventory.InventoryComponent;
-import org.terasology.logic.inventory.InventoryManager;
-import org.terasology.logic.notifications.NotificationMessageEvent;
-import org.terasology.logic.players.event.OnPlayerSpawnedEvent;
-import org.terasology.protobuf.EntityData;
-import org.terasology.registry.In;
-import org.terasology.world.block.items.BlockItemFactory;
+import org.terasology.engine.entitySystem.entity.EntityManager;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
+import org.terasology.engine.entitySystem.systems.RegisterMode;
+import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.logic.chat.ChatMessageEvent;
+import org.terasology.engine.logic.inventory.InventoryComponent;
+import org.terasology.engine.logic.inventory.InventoryManager;
+import org.terasology.engine.logic.players.event.OnPlayerSpawnedEvent;
+import org.terasology.engine.registry.In;
 
 @RegisterSystem(RegisterMode.AUTHORITY)
 public class InfernoAuthoritySystem extends BaseComponentSystem {

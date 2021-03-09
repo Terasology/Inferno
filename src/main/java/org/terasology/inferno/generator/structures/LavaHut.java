@@ -15,7 +15,7 @@
  */
 package org.terasology.inferno.generator.structures;
 
-import org.terasology.math.Direction;
+import org.terasology.engine.math.Direction;
 
 public class LavaHut {
     public int length;

@@ -17,19 +17,19 @@ package org.terasology.inferno.generator.rasterizers;
 
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
+import org.terasology.engine.registry.CoreRegistry;
+import org.terasology.engine.utilities.random.FastRandom;
+import org.terasology.engine.utilities.random.Random;
+import org.terasology.engine.world.block.Block;
+import org.terasology.engine.world.block.BlockManager;
+import org.terasology.engine.world.block.BlockRegion;
+import org.terasology.engine.world.chunks.Chunks;
+import org.terasology.engine.world.chunks.CoreChunk;
+import org.terasology.engine.world.generation.Region;
+import org.terasology.engine.world.generation.WorldRasterizer;
 import org.terasology.inferno.generator.facets.LavaHutFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
 import org.terasology.inferno.generator.structures.LavaHut;
-import org.terasology.registry.CoreRegistry;
-import org.terasology.utilities.random.FastRandom;
-import org.terasology.utilities.random.Random;
-import org.terasology.world.block.Block;
-import org.terasology.world.block.BlockManager;
-import org.terasology.world.block.BlockRegion;
-import org.terasology.world.chunks.Chunks;
-import org.terasology.world.chunks.CoreChunk;
-import org.terasology.world.generation.Region;
-import org.terasology.world.generation.WorldRasterizer;
 
 import java.util.Map;
 
