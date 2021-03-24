@@ -23,8 +23,8 @@ import org.terasology.engine.registry.CoreRegistry;
 import org.terasology.engine.world.block.Block;
 import org.terasology.engine.world.block.BlockManager;
 import org.terasology.engine.world.block.BlockRegion;
+import org.terasology.engine.world.chunks.Chunk;
 import org.terasology.engine.world.chunks.Chunks;
-import org.terasology.engine.world.chunks.CoreChunk;
 import org.terasology.engine.world.generation.Region;
 import org.terasology.engine.world.generation.WorldRasterizer;
 import org.terasology.inferno.generator.facets.InfernalTreeFacet;
@@ -46,7 +46,7 @@ public class InfernalTreeRasterizer implements WorldRasterizer {
     }
 
     @Override
-    public void generateChunk(CoreChunk chunk, Region chunkRegion) {
+    public void generateChunk(Chunk chunk, Region chunkRegion) {
         InfernalTreeFacet treeFacet = chunkRegion.getFacet(InfernalTreeFacet.class);
 
         for (Map.Entry<Vector3ic, InfernalTree> entry : treeFacet.getWorldEntries().entrySet()) {
