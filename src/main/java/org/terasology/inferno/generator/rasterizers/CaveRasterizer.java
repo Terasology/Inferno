@@ -6,8 +6,8 @@ import org.joml.Vector3ic;
 import org.terasology.engine.registry.CoreRegistry;
 import org.terasology.engine.world.block.Block;
 import org.terasology.engine.world.block.BlockManager;
+import org.terasology.engine.world.chunks.Chunk;
 import org.terasology.engine.world.chunks.Chunks;
-import org.terasology.engine.world.chunks.CoreChunk;
 import org.terasology.engine.world.generation.Region;
 import org.terasology.engine.world.generation.WorldRasterizer;
 import org.terasology.inferno.generator.facets.CaveFacet;
@@ -30,7 +30,7 @@ public class CaveRasterizer implements WorldRasterizer {
     }
 
     @Override
-    public void generateChunk(CoreChunk chunk, Region chunkRegion) {
+    public void generateChunk(Chunk chunk, Region chunkRegion) {
         CaveFacet caveFacet = chunkRegion.getFacet(CaveFacet.class);
 
         BlockManager blockManager = CoreRegistry.get(BlockManager.class);

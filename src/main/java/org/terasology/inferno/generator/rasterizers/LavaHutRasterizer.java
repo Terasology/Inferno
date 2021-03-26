@@ -23,8 +23,8 @@ import org.terasology.engine.utilities.random.Random;
 import org.terasology.engine.world.block.Block;
 import org.terasology.engine.world.block.BlockManager;
 import org.terasology.engine.world.block.BlockRegion;
+import org.terasology.engine.world.chunks.Chunk;
 import org.terasology.engine.world.chunks.Chunks;
-import org.terasology.engine.world.chunks.CoreChunk;
 import org.terasology.engine.world.generation.Region;
 import org.terasology.engine.world.generation.WorldRasterizer;
 import org.terasology.inferno.generator.facets.LavaHutFacet;
@@ -59,7 +59,7 @@ public class LavaHutRasterizer implements WorldRasterizer {
     }
 
     @Override
-    public void generateChunk(CoreChunk chunk, Region chunkRegion) {
+    public void generateChunk(Chunk chunk, Region chunkRegion) {
         LavaHutFacet lavaHutFacet = chunkRegion.getFacet(LavaHutFacet.class);
         LavaLevelFacet lavaLevelFacet = chunkRegion.getFacet(LavaLevelFacet.class);
 
@@ -151,7 +151,7 @@ public class LavaHutRasterizer implements WorldRasterizer {
         return true;
     }
 
-    private void placeWithProbability(CoreChunk chunk, Vector3i pos, Block block1, Block block2, float prob) {
+    private void placeWithProbability(Chunk chunk, Vector3i pos, Block block1, Block block2, float prob) {
         if (random.nextFloat() <= prob) {
             chunk.setBlock(Chunks.toRelative(pos, new Vector3i()), block1);
         } else {
