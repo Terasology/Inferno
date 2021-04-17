@@ -5,12 +5,31 @@
     "displayName": "Inferno",
     "description": "A module that adds an additional dimension with spooky things.",
     "dependencies": [
-        { "id": "ChiselBlocks", "minVersion": "1.0.0" },
-        { "id": "CoreAssets", "minVersion": "2.0.1" },
-        { "id": "CoreWorlds", "minVersion": "1.1.0", "maxVersion": "3.0.0" },
-        { "id": "DamagingBlocks", "minVersion": "1.0.0" },
-        { "id": "Health", "minVersion": "1.0.0" },
-        { "id": "Inventory", "minVersion": "1.1.0" }
+        {
+            "id": "ChiselBlocks",
+            "minVersion": "1.0.0"
+        },
+        {
+            "id": "CoreAssets",
+            "minVersion": "2.0.1"
+        },
+        {
+            "id": "CoreWorlds",
+            "minVersion": "1.1.0",
+            "maxVersion": "3.0.0"
+        },
+        {
+            "id": "DamagingBlocks",
+            "minVersion": "1.0.0"
+        },
+        {
+            "id": "Health",
+            "minVersion": "2.0.0-SNAPSHOT"
+        },
+        {
+            "id": "Inventory",
+            "minVersion": "1.1.0"
+        }
     ],
     "serverSideOnly": false,
     "isWorld": "true",
