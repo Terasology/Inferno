@@ -1,11 +1,10 @@
-// Copyright 2020 The Terasology Foundation
+// Copyright 2021 The Terasology Foundation
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.inferno.generator.providers;
 
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
-import org.terasology.engine.entitySystem.Component;
 import org.terasology.engine.utilities.procedural.AbstractNoise;
 import org.terasology.engine.utilities.procedural.Noise;
 import org.terasology.engine.utilities.procedural.PerlinNoise;
@@ -15,6 +14,7 @@ import org.terasology.engine.world.generation.Facet;
 import org.terasology.engine.world.generation.GeneratingRegion;
 import org.terasology.engine.world.generation.Produces;
 import org.terasology.engine.world.generation.Requires;
+import org.terasology.gestalt.entitysystem.component.Component;
 import org.terasology.inferno.generator.facets.CaveFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.nui.properties.Range;
@@ -95,7 +95,7 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
         this.configuration = (CaveFacetProviderConfiguration) configuration;
     }
 
-    private static class CaveFacetProviderConfiguration implements Component {
+    private static class CaveFacetProviderConfiguration implements Component<CaveFacetProviderConfiguration> {
         @Range(min = 0, max = 1f, increment = 0.05f, precision = 2, description = "Amount of Caves")
         public float amountOfCaves = 0.75f;
         @Range(min = 0, max = 2f, increment = 0.05f, precision = 2, description = "Width")
