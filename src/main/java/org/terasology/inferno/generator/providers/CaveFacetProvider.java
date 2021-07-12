@@ -109,6 +109,15 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
         @Range(min = -1f, max = 1, increment = 0.05f, precision = 2, description = "Raw Amount (use at own risk)")
         public float rawAmount = 0.3f;
 
+        @Override
+        public void copy(CaveFacetProviderConfiguration other) {
+            this.amountOfCaves = other.amountOfCaves;
+            this.width = other.width;
+            this.height = other.height;
+            this.amountofCavesNearSurface = other.amountofCavesNearSurface;
+            this.gradualIncreaseOverDepth = other.gradualIncreaseOverDepth;
+            this.rawAmount = other.rawAmount;
+        }
     }
 
     public static class RidgedNoise extends AbstractNoise {
