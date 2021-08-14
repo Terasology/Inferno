@@ -6,7 +6,7 @@ import org.terasology.gestalt.entitysystem.component.Component;
 
 public class InfernoResurrectComponent implements Component<InfernoResurrectComponent> {
     @Override
-    public void copy(InfernoResurrectComponent other) {
+    public void copyFrom(InfernoResurrectComponent other) {
 
     }
 }

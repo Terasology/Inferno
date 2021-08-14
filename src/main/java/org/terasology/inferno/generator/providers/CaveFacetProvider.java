@@ -110,7 +110,7 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
         public float rawAmount = 0.3f;
 
         @Override
-        public void copy(CaveFacetProviderConfiguration other) {
+        public void copyFrom(CaveFacetProviderConfiguration other) {
             this.amountOfCaves = other.amountOfCaves;
             this.width = other.width;
             this.height = other.height;
