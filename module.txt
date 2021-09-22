@@ -32,6 +32,7 @@
         }
     ],
     "serverSideOnly": false,
+    "isGameplay": "true",
     "isWorld": "true",
     "defaultWorldGenerator": "Inferno:InfernoWorld"
 }
