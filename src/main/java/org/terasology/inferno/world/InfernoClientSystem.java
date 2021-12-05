@@ -23,7 +23,7 @@ import org.terasology.engine.audio.AudioManager;
 import org.terasology.engine.audio.events.PlaySoundEvent;
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.event.EventPriority;
-import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.event.Priority;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
 import org.terasology.engine.entitySystem.systems.RegisterMode;
 import org.terasology.engine.entitySystem.systems.RegisterSystem;
@@ -31,9 +31,6 @@ import org.terasology.engine.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.engine.logic.characters.CharacterComponent;
 import org.terasology.engine.logic.characters.CharacterTeleportEvent;
 import org.terasology.engine.logic.health.BeforeDestroyEvent;
-import org.terasology.module.health.events.RestoreFullHealthEvent;
-import org.terasology.module.inventory.systems.InventoryManager;
-import org.terasology.module.inventory.systems.InventoryUtils;
 import org.terasology.engine.logic.location.LocationComponent;
 import org.terasology.engine.logic.players.LocalPlayer;
 import org.terasology.engine.registry.In;
@@ -43,9 +40,13 @@ import org.terasology.engine.world.block.BlockRegion;
 import org.terasology.engine.world.generation.Region;
 import org.terasology.engine.world.generation.World;
 import org.terasology.engine.world.generator.WorldGenerator;
+import org.terasology.gestalt.entitysystem.event.ReceiveEvent;
 import org.terasology.inferno.generator.facets.InfernoCeilingHeightFacet;
 import org.terasology.inferno.generator.facets.InfernoSurfaceHeightFacet;
 import org.terasology.inferno.generator.facets.LavaLevelFacet;
+import org.terasology.module.health.events.RestoreFullHealthEvent;
+import org.terasology.module.inventory.systems.InventoryManager;
+import org.terasology.module.inventory.systems.InventoryUtils;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -83,7 +84,8 @@ public class InfernoClientSystem extends BaseComponentSystem implements UpdateSu
         }
     }
 
-    @ReceiveEvent(priority = EventPriority.PRIORITY_HIGH)
+    @Priority(EventPriority.PRIORITY_HIGH)
+    @ReceiveEvent
     public void onDeath(BeforeDestroyEvent event, EntityRef entity, CharacterComponent characterComponent,
                         LocationComponent locationComponent) {
         EntityRef character = localPlayer.getCharacterEntity();

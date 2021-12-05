@@ -16,7 +16,7 @@
 package org.terasology.inferno.world;
 
 import org.terasology.engine.entitySystem.entity.EntityRef;
-import org.terasology.engine.entitySystem.event.Event;
+import org.terasology.gestalt.entitysystem.event.Event;
 
 public class EnterInfernoEvent implements Event {
     EntityRef clientEntity;
