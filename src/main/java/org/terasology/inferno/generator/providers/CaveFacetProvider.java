@@ -95,7 +95,7 @@ public class CaveFacetProvider implements ConfigurableFacetProvider {
         this.configuration = (CaveFacetProviderConfiguration) configuration;
     }
 
-    private static class CaveFacetProviderConfiguration implements Component<CaveFacetProviderConfiguration> {
+    public static class CaveFacetProviderConfiguration implements Component<CaveFacetProviderConfiguration> {
         @Range(min = 0, max = 1f, increment = 0.05f, precision = 2, description = "Amount of Caves")
         public float amountOfCaves = 0.75f;
         @Range(min = 0, max = 2f, increment = 0.05f, precision = 2, description = "Width")
